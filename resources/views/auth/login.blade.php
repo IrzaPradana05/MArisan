@@ -5,7 +5,7 @@
 <!--<![endif]-->
 <head>
 	<meta charset="utf-8" />
-	<title>M-Arisan | Login</title>
+	<title>MArisan | Login</title>
 	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
 	<meta content="" name="description" />
 	<meta content="" name="author" />
@@ -42,8 +42,10 @@
 			<!-- begin brand -->
 			<div class="login-header">
 				<div class="brand">
-					<span class="logo"><i class="ion-ios-book"></i></span> <b>M</b>-Arisan
-					<small>Sistem Informasi Arisan Warga</small>
+					<span class="logo"><i class="ion-ios-book"></i></span> <b>M</b>Arisan
+					<small>Sistem Informasi Arisan Warga Desa Lelateng</small>
+					<small>Kabupaten Jembrana, Bali</small>
+					<small>753655</small>
 				</div>
 				<div class="icon">
 					<i class="fa fa-lock"></i>
