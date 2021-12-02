@@ -1,0 +1,11 @@
+Admin
+email:admin@mail.com
+pass: admin123
+
+Siswa
+email: siswa@mail.com
+pass: 1234567
+
+Wali
+email: thariq@mail.com
+pass: 123123123
