@@ -8,6 +8,35 @@ use LaravelFCM\Facades\FCM;
 use App\LogUser;
 use App\Jobs\SendEmail;
 
+function uploadOrUpdateImage($request, $fileName = null)
+{
+    $destinationPath = 'images/article/thumbnail/'.\Auth::user()->web;
+
+    if(!is_dir(public_path($destinationPath))) {
+        mkdir(public_path($destinationPath), 0777, true);
+    }
+
+    if($request->hasFile('thumbnail')) {
+        if($fileName) {
+            if(file_exists(public_path($fileName))) {
+                \unlink(public_path($fileName));
+            }
+        }
+
+        $file = $request->file('thumbnail');
+        $fileName = time().'.'.$file->getClientOriginalExtension();
+        $fileExtension = \File::extension($fileName);
+        $fileNameWithExtension = $fileName.'.'.$fileExtension;
+        // $file->move($destinationPath, $fileNameWithExtension);
+        $img = Image::make($file->getRealPath());
+        $img->save(public_path($destinationPath).'/'.$fileNameWithExtension);
+
+        $fileName = $destinationPath.'/'.$fileNameWithExtension;
+    }
+
+    return $fileName;
+}
+
 function can_akses($kode = null) {
 
   $data_akses   =   DB::table('m_role as a')
