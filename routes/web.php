@@ -24,6 +24,15 @@ Auth::routes();
 Route::middleware('auth')->group(function (){
 	Route::get('dashboard', 'Backend\DashboardController@index')->name('dashboard');
 
+	Route::prefix('konfirmasi-pendaftaran')->group(function (){
+		Route::get('/', 'RegisterController@list_pendaftar')->name('konfirmasi-pendaftaran-index');
+		// Route::post('', 'Backend\KamarController@create')->name('kamar-create');
+		Route::get('edit/{id}', 'RegisterController@edit_status_pendaftar')->name('konfirmasi-pendaftaran-edit');
+		Route::put('update/{id}', 'Backend\KamarController@update')->name('kamar-update');
+		// Route::get('delete/{id}', 'Backend\KamarController@delete')->name('kamar-delete');
+	});
+
+//===============================================================================
 	Route::middleware('role_user:0')->group(function(){
 		//Route Pusat Data
 		Route::prefix('pusat-data')->group(function (){

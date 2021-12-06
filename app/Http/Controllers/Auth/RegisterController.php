@@ -74,5 +74,5 @@ class RegisterController extends Controller
             'role'          => $data['role'],
         ]);
     }
-
+    
 }
