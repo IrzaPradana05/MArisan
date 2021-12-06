@@ -204,4 +204,5 @@ Route::middleware('auth')->group(function (){
 });
 
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
+Route::post('/register', 'RegisterController@register')->name('register');
 

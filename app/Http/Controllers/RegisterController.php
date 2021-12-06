@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use DB;
 use Auth;
 use Alert;
+use Hash;
 
 class RegisterController extends Controller
 {
@@ -14,6 +15,18 @@ class RegisterController extends Controller
 
 	    return view('pages.backend.konfirmasi-pendaftaran.index',compact('list'));
 	}
+
+	public function register(Request $request)
+
+    {
+        $user = DB::table('users')->insert(['username'		=>$request->username, 
+                           					'role'			=>$request->role,
+                             				'status_aktif'	=>0,
+                              				'password'		=>Hash::make($request->password)]);
+
+        Alert::success('Success', 'Data Berhasil Ditambahkan!');
+        return redirect()->route('login');
+    }
 
 	public function submit_data_diri(Request $request, $id){
 	    $fileName = DB::table('users')->where('id',$id)->first('surat_komitmen');
