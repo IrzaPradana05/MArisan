@@ -37,11 +37,11 @@
 		<div class="register register-with-news-feed">
 			<!-- begin news-feed -->
 			<div class="news-feed">
-				<div class="news-image" style="background-image: url(../assets/img/login-bg/login-bg-9.jpg)"></div>
+				<div class="news-image" style="background-image: url({{asset('assets/img/login-bg/arisan.png')}})"></div>
 				<div class="news-caption">
-					<h4 class="caption-title"><b>Color</b> Admin App</h4>
+					<h4 class="caption-title"><b>Main</b> Arisan</h4>
 					<p>
-						As a Color Admin app administrator, you use the Color Admin console to manage your organization’s account, such as add new users, manage security settings, and turn on the services you want your team to access.
+						SELAMAT DATANG DI SISTEM INFORMASI ARISAN 2021.
 					</p>
 				</div>
 			</div>
@@ -51,54 +51,67 @@
 				<!-- begin register-header -->
 				<h1 class="register-header">
 					Sign Up
-					<small>Create your Color Admin Account. It’s free and always will be.</small>
+					<small>Silahkan Mendaftar untuk Membuat akun baru agar bisa login pada Sistem Main Arisan 2021.</small>
 				</h1>
 				<!-- end register-header -->
 				<!-- begin register-content -->
 				<div class="register-content">
 					<form action="{{ route('register') }}" method="POST" class="margin-bottom-0">
 						@csrf
-						<label class="control-label">Name <span class="text-danger">*</span></label>
+						<label class="control-label">Username <span class="text-danger">*</span></label>
 						<div class="row row-space-10">
 							<div class="col-md-12 m-b-15">
-								<input name="name" type="text" class="form-control" placeholder="First name" required />
+								<input name="username" type="text" class="form-control" placeholder="First name" required />
 							</div>
 						</div>
-						<label class="control-label">Email <span class="text-danger">*</span></label>
+						<!-- <label class="control-label">Email <span class="text-danger">*</span></label>
 						<div class="row m-b-15">
 							<div class="col-md-12">
 								<input name="email" type="text" class="form-control" placeholder="Email address" required />
 							</div>
-						</div>
+						</div> -->
 						<label class="control-label">Password <span class="text-danger">*</span></label>
 						<div class="row m-b-15">
 							<div class="col-md-12">
 								<input name="password" type="password" class="form-control" placeholder="Password" required />
 							</div>
 						</div>
+
 						<label class="control-label">Confirm Password<span class="text-danger">*</span></label>
 						<div class="row m-b-15">
 							<div class="col-md-12">
 								<input name="password_confirmation" type="password" class="form-control" placeholder="Confirm Password" required />
 							</div>
 						</div>
-						<div class="checkbox checkbox-css m-b-30">
+
+						<div class="form-group">
+                        <label for="role">Role<span class="text-danger">*</span></label>
+                          <select id="role" class="form-control custom-select" id="role" name="role" required >
+                            <option selected disabled> --Pilih Jenis Role-- </option>
+                            <option value="1">Panitia</option>
+                            <option value="2">Anggota</option>
+                          </select>
+                      </div>
+
+
+						<!-- <div class="checkbox checkbox-css m-b-30">
 							<div class="checkbox checkbox-css m-b-30">
 								<input type="checkbox" id="agreement_checkbox" value="" required>
 								<label for="agreement_checkbox">
 								By clicking Sign Up, you agree to our <a href="javascript:;">Terms</a> and that you have read our <a href="javascript:;">Data Policy</a>, including our <a href="javascript:;">Cookie Use</a>.
 								</label>
 							</div>
-						</div>
+						</div> -->
+
 						<div class="register-buttons">
 							<button type="submit" class="btn btn-primary btn-block btn-lg">Sign Up</button>
 						</div>
 						<div class="m-t-20 m-b-40 p-b-40 text-inverse">
-							Already a member? Click <a href="{{route('login')}}">here</a> to login.
+							Kembali Ke Halaman <a href="{{route('login')}}"> LOGIN </a>
 						</div>
 						<hr />
 						<p class="text-center">
-							&copy; Color Admin All Right Reserved 2019
+							&copy; Sistem Arisan All Right Reserved 2021
 						</p>
 					</form>
 				</div>

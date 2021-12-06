@@ -57,7 +57,7 @@
 				<form action="{{ route('login') }}" method="POST" class="margin-bottom-0">
 					@csrf
 					<div class="form-group m-b-20">
-						<input name="email" type="text" class="form-control form-control-lg" placeholder="Email Address" required />
+						<input name="username" type="text" class="form-control form-control-lg" placeholder="Username" required />
 					</div>
 					<div class="form-group m-b-20">
 						<input name="password" type="password" class="form-control form-control-lg" placeholder="Password" required />
@@ -69,11 +69,11 @@
 						</label>
 					</div> -->
 					<div class="login-buttons">
-						<button type="submit" class="btn btn-success btn-block btn-lg">Masuk</button>
+						<button type="submit" class="btn btn-success btn-block btn-lg"> <i class="fa fa-arrow-right"></i> Masuk</button>
 					</div>
 					<br>
 					<div class="register-buttons">
-						<a href="{{route('register')}}" class="btn btn-primary btn-block btn-lg">Daftar</a>
+						<a href="{{route('register')}}" class="btn btn-primary btn-block btn-lg"><i class="fa fa-user-plus"></i> Daftar</a>
 					</div>
 					<!-- <div class="m-t-20">
 						Not a member yet? Click <a href="{{route('register')}}">here</a> to register.
