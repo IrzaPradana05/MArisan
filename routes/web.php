@@ -96,6 +96,16 @@ Route::middleware('auth')->group(function (){
 		});
 	});
 
+	//Route Arisan
+	Route::prefix('arisan')->group(function (){
+		Route::get('/', 'Backend\ArisanController@index')->name('arisan-index');
+		Route::middleware('role_user:0')->group(function(){
+			Route::post('', 'Backend\ArisanController@create')->name('arisan-create');
+			Route::get('edit/{id}', 'Backend\ArisanController@editAjax')->name('arisan-ajax-edit');
+			Route::put('update/{id}', 'Backend\ArisanController@update')->name('arisan-update');
+		});
+	});
+
 	Route::middleware('role_user:0')->group(function(){
 		//Route Surat Tindak
 		Route::prefix('surat-tindak')->group(function (){
