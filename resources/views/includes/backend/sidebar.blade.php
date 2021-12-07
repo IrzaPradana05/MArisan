@@ -80,6 +80,12 @@
                     <span>Prestasi Siswa</span>
                 </a>
             </li>
+            <li class=" {{Request::segment(1) == 'arisan' ? 'active' : ''}}">
+                <a href="{{route('arisan-index')}}">
+                    <i class="ion-ios-trophy bg-purple"></i>
+                    <span>Arisan</span>
+                </a>
+            </li>
             <li class=" {{Request::segment(1) == 'konseling' ? 'active' : ''}}">
                 <a href="{{route('konseling-index')}}">
                     <i class="ion-ios-people bg-indigo"></i>
