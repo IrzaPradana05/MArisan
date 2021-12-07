@@ -28,13 +28,23 @@
         <!-- begin sidebar nav -->
         <ul class="nav">
             <li class="nav-header">Navigation</li>
+            @roleCanAccess(['2'])
+                @if(Auth::user()->status_aktif==0)
+                <li class=" {{Request::segment(1) == 'konfirmasi-pendaftaran' ? 'active' : ''}}">
+                    <a href="{{route('form-data-diri')}}">
+                        <i class="ion-ios-person bg-purple"></i>
+                        <span>Data Diri</span>
+                    </a>
+                </li>
+                @endif
+            @endroleCanAccess
+            @roleCanAccess(['0'])
             <li class=" {{Request::segment(1) == 'dashboard' ? 'active' : ''}}">
                 <a href="{{route('dashboard')}}">
                     <i class="ion-ios-home bg-blue"></i>
                     <span>Dashboard</span>
                 </a>
             </li>
-            @roleCanAccess(['0'])
                 <li class="has-sub {{Request::segment(1) == 'pusat-data' ? 'active' : ''}}">
                     <a href="javascript:;">
                         <b class="caret"></b>
@@ -48,13 +58,13 @@
                         <li class="{{Request::segment(2) == 'wali' ? 'active' : ''}}"><a href="{{route('wali-index')}}">Wali</a></li>
                     </ul>
                 </li>
-            @endroleCanAccess
             <li class=" {{Request::segment(1) == 'pelanggaran' ? 'active' : ''}}">
                 <a href="{{route('pelanggaran-index')}}">
                     <i class="ion-ios-book bg-red"></i>
                     <span>Pelanggaran Siswa</span>
                 </a>
             </li>
+            @endroleCanAccess
             @roleCanAccess(['0'])
                 <li class=" {{Request::segment(1) == 'surat-tindak' ? 'active' : ''}}">
                     <a href="{{route('surat-tindak-index')}}">
@@ -63,6 +73,7 @@
                     </a>
                 </li>
             @endroleCanAccess
+            @roleCanAccess(['0'])
             <li class=" {{Request::segment(1) == 'prestasi' ? 'active' : ''}}">
                 <a href="{{route('prestasi-index')}}">
                     <i class="ion-ios-trophy bg-purple"></i>
@@ -93,6 +104,7 @@
                     <span>Tes Reflin</span>
                 </a>
             </li>
+            @endroleCanAccess
             
             <!-- begin sidebar minify button -->
             <li><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i class="ion-ios-arrow-back"></i> <span>Sembunyikan</span></a></li>

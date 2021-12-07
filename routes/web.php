@@ -26,7 +26,8 @@ Route::middleware('auth')->group(function (){
 
 	Route::prefix('konfirmasi-pendaftaran')->group(function (){
 		Route::get('/', 'RegisterController@list_pendaftar')->name('konfirmasi-pendaftaran-index');
-		// Route::post('', 'Backend\KamarController@create')->name('kamar-create');
+		Route::get('form-data-diri', 'RegisterController@form_data_diri')->name('form-data-diri');
+		Route::post('submit-data-diri/{id}', 'RegisterController@submit_data_diri')->name('submit-data-diri');
 		Route::get('edit/{id}', 'RegisterController@edit_status_pendaftar')->name('konfirmasi-pendaftaran-edit');
 		Route::put('update/{id}', 'Backend\KamarController@update')->name('kamar-update');
 		// Route::get('delete/{id}', 'Backend\KamarController@delete')->name('kamar-delete');

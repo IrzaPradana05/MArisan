@@ -8,7 +8,7 @@ use LaravelFCM\Facades\FCM;
 use App\LogUser;
 use App\Jobs\SendEmail;
 
-function uploadOrUpdateImage($file, $fileName = null, $destinationPath = 'images/surat-komitmen/')
+function uploadOrUpdateImage($file, $fileName = null, $destinationPath = 'images/surat-komitmen')
 {
     // $destinationPath = 'images/article/thumbnail/'.\Auth::user()->web;
 
@@ -26,7 +26,7 @@ function uploadOrUpdateImage($file, $fileName = null, $destinationPath = 'images
         // $file = $request->file('surat_komitmen');
         $fileName = time().'.'.$file->getClientOriginalExtension();
         $fileExtension = \File::extension($fileName);
-        $fileNameWithExtension = $fileName.'.'.$fileExtension;
+        $fileNameWithExtension = $fileName;
         // $file->move($destinationPath, $fileNameWithExtension);
         $img = Image::make($file->getRealPath());
         $img->save(public_path($destinationPath).'/'.$fileNameWithExtension);

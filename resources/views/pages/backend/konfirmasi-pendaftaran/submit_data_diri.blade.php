@@ -24,11 +24,11 @@
 			<!-- begin breadcrumb -->
 			<ol class="breadcrumb pull-right">
 				<li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-				<li class="breadcrumb-item active">Konfirmasi Pendaftaran</li>
+				<li class="breadcrumb-item active">Lengkapi Data Diri</li>
 			</ol>
 			<!-- end breadcrumb -->
 			<!-- begin page-header -->
-			<h1 class="page-header">Konfirmasi Pendaftaran</h1>
+			<h1 class="page-header">Lengkapi Data Diri</h1>
 			<!-- end page-header -->
 			
 			<!-- begin row -->
@@ -51,111 +51,47 @@
 							@roleCanAccess(['0'])
 								<a href="#add_data" class="btn btn-primary btn-lg" data-toggle="modal">Tambah Data</a>
 							@endroleCanAccess
-							<!-- #modal-without-animation -->
-							<div class="modal" id="add_data">
-								<div class="modal-dialog modal-md">
-									<div class="modal-content">
-										<div class="modal-header">
-											<h4 class="modal-title">Tambah Data</h4>
-											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-										</div>
-										<div class="modal-body">
-											<form action="{{route('karir-create')}}" method="post">
-												@csrf
-												@method('post')
-												<div class="row">
-													<div class="col-md-12">
-														<label for="nis">NIS <small class="text-danger">*</small></label>
-														<select required class="form-control selectpicker" data-size="10" data-live-search="true" data-style="btn-white" name="nis" id="nis">
-															<option value="">Pilih Siswa</option>
-														</select><br><br>
-														<label for="catatan">Catatan Karir <small class="text-danger">*</small></label>
-														<textarea required type="text" class="form-control" name="catatan" id="catatan"></textarea><br>
-													</div>
-												</div>
-										</div>
-										<div class="modal-footer">
-											<input type="submit" class="btn btn-success" value="+Tambah">
-											<input type="reset" class="btn btn-white" value="Reset">
-										</div>
-											</form>
-									</div>
-								</div>
-							</div>
-						<!-- </div> -->
 
-							<div class="modal" id="edit_form">
-								<div class="modal-dialog modal-md">
-									<div class="modal-content">
-										<div class="modal-header">
-											<h4 class="modal-title">Detail Data</h4>
-											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-										</div>
-										<div class="modal-body">
-											<form name="update" action="" method="post">
-												@csrf
-												@method('put')
-												<div class="row">
-													<div class="col-md-12">
-														<label for="name">Nama Lengkap</label>
-														<input required type="text" class="form-control" name="name" id="name" value=""><br>
-														<label for="no_hp">No HP</label>
-														<input required type="text" class="form-control" name="no_hp" id="no_hp" value=""><br>
-														<label for="nik">NIK</label>
-														<input required type="text" class="form-control" name="nik" id="nik" value=""><br>
-														
-														<label for="tempat_lahir">Temp. Lahir</label>
-														<input required type="text" class="form-control" name="tempat_lahir" id="tempat_lahir" value=""><br>
-														<label for="tanggal_lahir">Tgl. Lahir</label>
-														<input required type="date" class="form-control" name="tanggal_lahir" id="tanggal_lahir" value=""><br>
-														<label for="alamat">Alamat</label>
-														<textarea required type="text" class="form-control" name="alamat" id="alamat"></textarea><br>
-														<label for="surat_komitmen">Surat Komitmen</label>
-														<input required type="file" class="form-control" name="surat_komitmen" id="surat_komitmen"><br>
-													</div>
-												</div>
-										</div>
-										<div class="modal-footer">
-											<input type="submit" class="btn btn-success" value="Update">
-										</div>
-											</form>
-									</div>
-								</div>
-							</div>
-
-						</div>
 
 						<!-- begin panel-body -->
 						<div class="panel-body">
-							<table id="data-table-kamar" class="table table-striped table-bordered">
-								<thead>
-									<tr>
-										<th width="1%">No</th>
-										<th class="text-nowrap">NIK</th>
-										<th class="text-nowrap">Nama</th>
-										@roleCanAccess(['0'])
-											<!-- <th class="text-nowrap" data-orderable="false">Aksi</th> -->
-										@endroleCanAccess
-									</tr>
-								</thead>
-								<tbody>
-									@php $num=1 @endphp
-									@foreach($list as $data)
-										<tr>
-											<td>{{$num++}}</td>
-											<td>{{$data->nik}}</td>
-											<td>{{ucwords($data->name)}}</td>
-											<!-- <td>{{$data->jk == '1' ? 'Laki-laki' : ($data->jk == '2' ? 'Perempuan' : '')}}</td> -->
-											@roleCanAccess(['0'])
-												<td>
-													<a href="javascript:;" url="{{route('konfirmasi-pendaftaran-edit', $data->id)}}" class="edit_data" url-update="{{route('karir-update', $data->id)}}"><i class="fas fa-lg fa-fw m-r-10 fa-edit text-warning"></i></a>
-													<!-- <a href="{{route('karir-delete', $data->id)}}"><i class="fas fa-lg fa-fw m-r-10 fa-trash text-danger"></i></a> -->
-												</td>
-											@endroleCanAccess
-										</tr>
-									@endforeach
-								</tbody>
-							</table>
+
+							<form action="{{route('submit-data-diri',$data->id)}}" method="post" enctype="multipart/form-data">
+								@csrf
+								@method('post')
+								<div class="row">
+									<div class="col-md-12">
+										<label for="name">Nama Lengkap</label>
+										<input required type="text" class="form-control" name="name" id="name" value="{{$data->name}}"><br>
+										<label for="no_hp">No HP</label>
+										<input required type="text" class="form-control" name="no_hp" id="no_hp" value="{{$data->no_hp}}"><br>
+										<label for="nik">NIK</label>
+										<input required type="text" class="form-control" name="nik" id="nik" value="{{$data->nik}}"><br>
+										<label for="jk">Jenis Kelamin</label>
+										<select name="jk" class="form-control" required>
+											<option value="1" {{$data->jk == 1 ? 'selected' : ''}}>Laki-laki</option>
+											<option value="2" {{$data->jk == 2 ? 'selected' : ''}}>Perempuan</option>
+										</select><br>
+										<label for="tempat_lahir">Temp. Lahir</label>
+										<input required type="text" class="form-control" name="tempat_lahir" id="tempat_lahir" value="{{$data->tempat_lahir}}"><br>
+										<label for="tanggal_lahir">Tgl. Lahir</label>
+										<input required type="date" class="form-control" name="tanggal_lahir" id="tanggal_lahir" value="{{$data->tanggal_lahir}}"><br>
+										<label for="alamat">Alamat</label>
+										<textarea required type="text" class="form-control" name="alamat" id="alamat">{{$data->alamat}}</textarea><br>
+										<label for="surat_komitmen">Surat Komitmen</label>
+										<input required type="file" class="form-control" name="surat_komitmen" id="surat_komitmen"><br>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-1">
+									<input type="submit" class="btn btn-success" value="Kirim Data">
+									</div>
+									<div class="col-md-1">
+									<input type="reset" class="btn btn-white" value="Reset">
+									</div>
+								</div>
+							</form>
+
 						</div>
 						<!-- end panel-body -->
 					</div>

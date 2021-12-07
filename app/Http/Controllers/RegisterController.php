@@ -11,7 +11,7 @@ use Hash;
 class RegisterController extends Controller
 {
 	public function list_pendaftar(){
-	    $list = DB::table('users')->where('status_aktif',0)->get();
+	    $list = DB::table('users')->where('role',2)->where('status_aktif',0)->get();
 
 	    return view('pages.backend.konfirmasi-pendaftaran.index',compact('list'));
 	}
@@ -28,9 +28,15 @@ class RegisterController extends Controller
         return redirect()->route('login');
     }
 
+	public function form_data_diri(){
+	    $data = DB::table('users')->where('id',Auth::user()->id)->first();
+
+	    return view('pages.backend.konfirmasi-pendaftaran.submit_data_diri',compact('data'));
+	}
+
 	public function submit_data_diri(Request $request, $id){
-	    $fileName = DB::table('users')->where('id',$id)->first('surat_komitmen');
-	    $surat_komitmen = $this->uploadOrUpdateThumbnail($request->surat_komitmen, $fileName, $destinationPath = 'images/surat-komitmen/');
+	    $fileName = DB::table('users')->where('id',$id)->first();
+	    $surat_komitmen = uploadOrUpdateImage($request->file('surat_komitmen'), $fileName->surat_komitmen, $destinationPath = 'images/surat-komitmen');
 
 	    $arr_update = [
 	        'name' => $request->name,
@@ -44,9 +50,9 @@ class RegisterController extends Controller
 	    ];
 	    DB::table('users')->where('id',$id)->update($arr_update);
 
-	    Alert::success('Success', 'Data Berhasil Ditambahkan!');
+	    Alert::success('Success', 'Data Berhasil Disimpan! Silahkan tunggu Admin melakukan verifikasi data Anda.');
 
-	    // return redirect()->route();
+	    return redirect()->back();
 	}
 
 	public function edit_status_pendaftar($id){

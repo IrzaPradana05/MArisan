@@ -6,11 +6,15 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use NXP\MathExecutor;
 use DB;
+use Auth;
 
 class DashboardController extends Controller
 {
     public function index()
     {
+        if (Auth::user()->role==2 && Auth::user()->status_aktif==0) {
+            return redirect()->route('form-data-diri');
+        }
         $poin_pelanggaran = DB::table('t_pelanggaran')->sum('poin_pelanggaran');
         $prestasi = DB::table('t_prestasi')->count();
         $konseling = DB::table('t_konseling')->count();
