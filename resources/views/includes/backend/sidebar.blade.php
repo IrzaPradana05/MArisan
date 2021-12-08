@@ -28,7 +28,7 @@
         <!-- begin sidebar nav -->
         <ul class="nav">
             <li class="nav-header">Navigation</li>
-            @roleCanAccess(['2'])
+            <!-- @roleCanAccess(['2'])
                 @if(Auth::user()->status_aktif==0)
                 <li class=" {{Request::segment(1) == 'konfirmasi-pendaftaran' ? 'active' : ''}}">
                     <a href="{{route('form-data-diri')}}">
@@ -37,7 +37,7 @@
                     </a>
                 </li>
                 @endif
-            @endroleCanAccess
+            @endroleCanAccess -->
             @roleCanAccess(['0'])
             <li class=" {{Request::segment(1) == 'dashboard' ? 'active' : ''}}">
                 <a href="{{route('dashboard')}}">

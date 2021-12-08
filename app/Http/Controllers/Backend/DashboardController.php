@@ -7,12 +7,16 @@ use Illuminate\Http\Request;
 use NXP\MathExecutor;
 use DB;
 use Auth;
+use Alert;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        if (Auth::user()->role==2 && Auth::user()->status_aktif==0) {
+        if (Auth::user()->status_aktif==0 || Auth::user()->status_aktif==4) {
+            return redirect()->route('form-data-diri');
+        }elseif(Auth::user()->status_aktif==2) {
+            Alert::warning('Warning', 'Data tidak valid! Silahkan periksa dan isi kembali data Anda dengan benar.');
             return redirect()->route('form-data-diri');
         }
         $poin_pelanggaran = DB::table('t_pelanggaran')->sum('poin_pelanggaran');

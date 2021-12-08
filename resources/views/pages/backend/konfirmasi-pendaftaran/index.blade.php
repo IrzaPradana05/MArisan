@@ -48,44 +48,9 @@
 						<!-- end panel-heading -->
 
 						<div class="panel-body">
-							@roleCanAccess(['0'])
-								<a href="#add_data" class="btn btn-primary btn-lg" data-toggle="modal">Tambah Data</a>
-							@endroleCanAccess
-							<!-- #modal-without-animation -->
-							<div class="modal" id="add_data">
-								<div class="modal-dialog modal-md">
-									<div class="modal-content">
-										<div class="modal-header">
-											<h4 class="modal-title">Tambah Data</h4>
-											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-										</div>
-										<div class="modal-body">
-											<form action="{{route('karir-create')}}" method="post">
-												@csrf
-												@method('post')
-												<div class="row">
-													<div class="col-md-12">
-														<label for="nis">NIS <small class="text-danger">*</small></label>
-														<select required class="form-control selectpicker" data-size="10" data-live-search="true" data-style="btn-white" name="nis" id="nis">
-															<option value="">Pilih Siswa</option>
-														</select><br><br>
-														<label for="catatan">Catatan Karir <small class="text-danger">*</small></label>
-														<textarea required type="text" class="form-control" name="catatan" id="catatan"></textarea><br>
-													</div>
-												</div>
-										</div>
-										<div class="modal-footer">
-											<input type="submit" class="btn btn-success" value="+Tambah">
-											<input type="reset" class="btn btn-white" value="Reset">
-										</div>
-											</form>
-									</div>
-								</div>
-							</div>
-						<!-- </div> -->
-
+							
 							<div class="modal" id="edit_form">
-								<div class="modal-dialog modal-md">
+								<div class="modal-dialog modal-lg">
 									<div class="modal-content">
 										<div class="modal-header">
 											<h4 class="modal-title">Detail Data</h4>
@@ -94,29 +59,35 @@
 										<div class="modal-body">
 											<form name="update" action="" method="post">
 												@csrf
-												@method('put')
+												@method('post')
 												<div class="row">
 													<div class="col-md-12">
 														<label for="name">Nama Lengkap</label>
-														<input required type="text" class="form-control" name="name" id="name" value=""><br>
+														<input required type="text" class="form-control" name="name" id="name" value="" disabled><br>
 														<label for="no_hp">No HP</label>
-														<input required type="text" class="form-control" name="no_hp" id="no_hp" value=""><br>
+														<input required type="text" class="form-control" name="no_hp" id="no_hp" value="" disabled><br>
 														<label for="nik">NIK</label>
-														<input required type="text" class="form-control" name="nik" id="nik" value=""><br>
+														<input required type="text" class="form-control" name="nik" id="nik" value="" disabled><br>
 														
 														<label for="tempat_lahir">Temp. Lahir</label>
-														<input required type="text" class="form-control" name="tempat_lahir" id="tempat_lahir" value=""><br>
+														<input required type="text" class="form-control" name="tempat_lahir" id="tempat_lahir" value="" disabled><br>
 														<label for="tanggal_lahir">Tgl. Lahir</label>
-														<input required type="date" class="form-control" name="tanggal_lahir" id="tanggal_lahir" value=""><br>
+														<input required type="date" class="form-control" name="tanggal_lahir" id="tanggal_lahir" value="" disabled><br>
 														<label for="alamat">Alamat</label>
-														<textarea required type="text" class="form-control" name="alamat" id="alamat"></textarea><br>
-														<label for="surat_komitmen">Surat Komitmen</label>
-														<input required type="file" class="form-control" name="surat_komitmen" id="surat_komitmen"><br>
+														<textarea required type="text" class="form-control" name="alamat" id="alamat" disabled></textarea><br>
+														<label for="surat_komitmen">Surat Komitmen</label><br>
+														<img class="media-object" name="surat" src="" alt=""><br><br>
+														<label for="status_aktif">Status Data</label>
+														<select required class="form-control" name="status_aktif" id="status_aktif">
+															<option value="">-- Pilih Status --</option>
+															<option value="1">Valid</option>
+															<option value="2">Tidak Valid</option>
+														</select>
 													</div>
 												</div>
 										</div>
 										<div class="modal-footer">
-											<input type="submit" class="btn btn-success" value="Update">
+											<input type="submit" class="btn btn-success" value="SUBMIT">
 										</div>
 											</form>
 									</div>
@@ -134,7 +105,7 @@
 										<th class="text-nowrap">NIK</th>
 										<th class="text-nowrap">Nama</th>
 										@roleCanAccess(['0'])
-											<!-- <th class="text-nowrap" data-orderable="false">Aksi</th> -->
+											<th class="text-nowrap" data-orderable="false"></th>
 										@endroleCanAccess
 									</tr>
 								</thead>
@@ -148,7 +119,7 @@
 											<!-- <td>{{$data->jk == '1' ? 'Laki-laki' : ($data->jk == '2' ? 'Perempuan' : '')}}</td> -->
 											@roleCanAccess(['0'])
 												<td>
-													<a href="javascript:;" url="{{route('konfirmasi-pendaftaran-edit', $data->id)}}" class="edit_data" url-update="{{route('karir-update', $data->id)}}"><i class="fas fa-lg fa-fw m-r-10 fa-edit text-warning"></i></a>
+													<a href="javascript:;" url="{{route('konfirmasi-pendaftaran-edit', $data->id)}}" class="edit_data" url-update="{{route('update-status-pendaftar', $data->id)}}"><i class="fas fa-lg fa-fw m-r-10 fa-edit text-warning"></i></a>
 													<!-- <a href="{{route('karir-delete', $data->id)}}"><i class="fas fa-lg fa-fw m-r-10 fa-trash text-danger"></i></a> -->
 												</td>
 											@endroleCanAccess
@@ -211,7 +182,13 @@
 			  type:"GET",
 			  success:function(response){
 			    $('form[name=update]').attr('action', url_update)
-			    $('textarea[name=catatan_edit]').text(response['catatan'])
+			    $('input[name=name]').val(response.name)
+			    $('input[name=no_hp]').val(response.no_hp)
+			    $('input[name=nik]').val(response.nik)
+			    $('input[name=tempat_lahir]').val(response.tempat_lahir)
+			    $('input[name=tanggal_lahir]').val(response.tanggal_lahir)
+			    $('textarea[name=alamat]').text(response.alamat)
+			    $('img[name=surat]').attr('src', "{{asset('public')}}/"+response.surat_komitmen)
 			    $('#edit_form').modal().show()
 			  },
 			});

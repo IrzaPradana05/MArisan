@@ -86,13 +86,13 @@
 			@endroleCanAccess
 
 			<!-- with right icon -->
-			<div class="note note-info note-with-left-icon">
+			<!-- <div class="note note-info note-with-left-icon">
 			  <div class="note-icon"><i class="fa fa-lightbulb"></i></div>
 			  <div class="note-content text-left">
 			    <h4><b>Apa itu Konseling ?</b></h4>
 			    <p>Konseling adalah hubungan pribadi yang dilakukan secara tatap muka antarab dua orang dalam mana konselor melalui hubungan itu dengan kemampuan-kemampuan khusus yang dimilikinya, menyediakan situasi belajar. Dalam hal ini konseli dibantu untuk memahami diri sendiri, keadaannya sekarang, dan kemungkinan keadaannya masa depan yang dapat ia ciptakan dengan menggunakan potensi yang dimilikinya, demi untuk kesejahteraan pribadi maupun masyarakat. Lebih lanjut konseling dapat belajar bagaimana memecahkan masalah-masalah dan menemukan kebutuhan-kebutuhan yang akan datang. (Tolbert, dalam Prayitno 2004 : 101).</p>
 			  </div>
-			</div>
+			</div> -->
 			
 			
 			

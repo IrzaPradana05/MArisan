@@ -21,7 +21,7 @@ class RegisterController extends Controller
     {
         $user = DB::table('users')->insert(['username'		=>$request->username, 
                            					'role'			=>$request->role,
-                             				'status_aktif'	=>0,
+                             				'status_aktif'	=>4,
                               				'password'		=>Hash::make($request->password)]);
 
         Alert::success('Success', 'Data Berhasil Ditambahkan!');
@@ -29,6 +29,10 @@ class RegisterController extends Controller
     }
 
 	public function form_data_diri(){
+		if (Auth::user()->status_aktif==1) {
+		    return redirect()->route('dashboard');
+		}
+
 	    $data = DB::table('users')->where('id',Auth::user()->id)->first();
 
 	    return view('pages.backend.konfirmasi-pendaftaran.submit_data_diri',compact('data'));
@@ -67,9 +71,9 @@ class RegisterController extends Controller
 	    ];
 	    DB::table('users')->where('id',$id)->update($arr_update);
 
-	    Alert::success('Success', 'Data Berhasil Ditambahkan!');
+	    Alert::success('Success', 'Data Berhasil Dikonfirmasi!');
 
-	    // return redirect()->route();
+	    return redirect()->back();
 	}
     
 

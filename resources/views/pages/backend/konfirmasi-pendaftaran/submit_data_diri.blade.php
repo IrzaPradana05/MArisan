@@ -38,64 +38,71 @@
 				<div class="col-lg-12">
 					<!-- begin panel -->
 					<div class="panel panel-inverse">
-						<!-- begin panel-heading -->
-						<div class="panel-heading">
-							<div class="panel-heading-btn">
-								<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+
+						@if(Auth::user()->status_aktif == 0)
+							<div class="note note-info note-with-left-icon">
+							  <div class="note-icon"><i class="fa fa-lightbulb"></i></div>
+							  <div class="note-content text-left">
+							    <h4><b>Data sedang diperiksa.</b></h4>
+							    <p>Admin akan segera melakukan validasi pada data Anda.</p>
+							  </div>
 							</div>
-							<h4 class="panel-title">Data Pendaftar Baru</h4>
-						</div>
-						<!-- end panel-heading -->
-
-						<div class="panel-body">
-							@roleCanAccess(['0'])
-								<a href="#add_data" class="btn btn-primary btn-lg" data-toggle="modal">Tambah Data</a>
-							@endroleCanAccess
-
-
-						<!-- begin panel-body -->
-						<div class="panel-body">
-
-							<form action="{{route('submit-data-diri',$data->id)}}" method="post" enctype="multipart/form-data">
-								@csrf
-								@method('post')
-								<div class="row">
-									<div class="col-md-12">
-										<label for="name">Nama Lengkap</label>
-										<input required type="text" class="form-control" name="name" id="name" value="{{$data->name}}"><br>
-										<label for="no_hp">No HP</label>
-										<input required type="text" class="form-control" name="no_hp" id="no_hp" value="{{$data->no_hp}}"><br>
-										<label for="nik">NIK</label>
-										<input required type="text" class="form-control" name="nik" id="nik" value="{{$data->nik}}"><br>
-										<label for="jk">Jenis Kelamin</label>
-										<select name="jk" class="form-control" required>
-											<option value="1" {{$data->jk == 1 ? 'selected' : ''}}>Laki-laki</option>
-											<option value="2" {{$data->jk == 2 ? 'selected' : ''}}>Perempuan</option>
-										</select><br>
-										<label for="tempat_lahir">Temp. Lahir</label>
-										<input required type="text" class="form-control" name="tempat_lahir" id="tempat_lahir" value="{{$data->tempat_lahir}}"><br>
-										<label for="tanggal_lahir">Tgl. Lahir</label>
-										<input required type="date" class="form-control" name="tanggal_lahir" id="tanggal_lahir" value="{{$data->tanggal_lahir}}"><br>
-										<label for="alamat">Alamat</label>
-										<textarea required type="text" class="form-control" name="alamat" id="alamat">{{$data->alamat}}</textarea><br>
-										<label for="surat_komitmen">Surat Komitmen</label>
-										<input required type="file" class="form-control" name="surat_komitmen" id="surat_komitmen"><br>
-									</div>
+						@else
+							<!-- begin panel-heading -->
+							<div class="panel-heading">
+								<div class="panel-heading-btn">
+									<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
 								</div>
-								<div class="row">
-									<div class="col-md-1">
-									<input type="submit" class="btn btn-success" value="Kirim Data">
-									</div>
-									<div class="col-md-1">
-									<input type="reset" class="btn btn-white" value="Reset">
-									</div>
-								</div>
-							</form>
+								<h4 class="panel-title">Data Pendaftar Baru</h4>
+							</div>
+							<!-- end panel-heading -->
+							
+							<div class="panel-body">
 
+							<!-- begin panel-body -->
+							<div class="panel-body">
+
+								<form action="{{route('submit-data-diri',$data->id)}}" method="post" enctype="multipart/form-data">
+									@csrf
+									@method('post')
+									<div class="row">
+										<div class="col-md-12">
+											<label for="name">Nama Lengkap</label>
+											<input required type="text" class="form-control" name="name" id="name" value="{{$data->name}}"><br>
+											<label for="no_hp">No HP</label>
+											<input required type="text" class="form-control" name="no_hp" id="no_hp" value="{{$data->no_hp}}"><br>
+											<label for="nik">NIK</label>
+											<input required type="text" class="form-control" name="nik" id="nik" value="{{$data->nik}}"><br>
+											<label for="jk">Jenis Kelamin</label>
+											<select name="jk" class="form-control" required>
+												<option value="1" {{$data->jk == 1 ? 'selected' : ''}}>Laki-laki</option>
+												<option value="2" {{$data->jk == 2 ? 'selected' : ''}}>Perempuan</option>
+											</select><br>
+											<label for="tempat_lahir">Temp. Lahir</label>
+											<input required type="text" class="form-control" name="tempat_lahir" id="tempat_lahir" value="{{$data->tempat_lahir}}"><br>
+											<label for="tanggal_lahir">Tgl. Lahir</label>
+											<input required type="date" class="form-control" name="tanggal_lahir" id="tanggal_lahir" value="{{$data->tanggal_lahir}}"><br>
+											<label for="alamat">Alamat</label>
+											<textarea required type="text" class="form-control" name="alamat" id="alamat">{{$data->alamat}}</textarea><br>
+											<label for="surat_komitmen">Surat Komitmen</label>
+											<input required type="file" class="form-control" name="surat_komitmen" id="surat_komitmen"><br>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-1">
+										<input type="submit" class="btn btn-success" value="Kirim Data">
+										</div>
+										<div class="col-md-1">
+										<input type="reset" class="btn btn-white" value="Reset">
+										</div>
+									</div>
+								</form>
+
+							</div>
+							<!-- end panel-body -->
 						</div>
-						<!-- end panel-body -->
-					</div>
-					<!-- end panel -->
+						<!-- end panel -->
+						@endif
 				</div>
 				<!-- end col-10 -->
 			</div>
