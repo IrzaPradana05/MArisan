@@ -43,20 +43,18 @@ class ArisanController extends Controller
 
     public function editAjax($id)
     {
-        $arisan = DB::table('m_arisan')->where('id', $id)->first();
+        $arisan = DB::table('m_arisan')->where('id_arisan', $id)->first();
 
-        return response((array) $arisan);
+        return $arisan;
     }
 
     public function update(Request $request, $id)
     {
-        $kelas = DB::table('m_arisan')->where('id', $id)->update([
-                    'id_arisan'         => $request->id_arisan,
+        $arisan = DB::table('m_arisan')->where('id_arisan', $id)->update([
                     'nama_arisan'       => $request->nama_arisan,
                     'jumlah_slot'       => $request->jumlah_slot,
                     'iuran_perbulan'    => $request->iuran_perbulan,
                     'status_arisan'     => 1,
-                    'created_date'      => date('Y-m-d H:i:s'),
                     'created_by'        => Auth::user()->id,
                 ]);
 

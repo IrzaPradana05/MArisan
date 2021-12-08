@@ -85,13 +85,6 @@
 									                    </div>
 													</div>
 
-													<div class="col-md-12">
-														<div class="form-group">
-									                        <label for="status_arisan">Status Arisan</label>
-									                          <input type="text" class="form-control" id="status_arisan" name="status_arisan" required="required" placeholder="Masukkan Status Arisan ..." >
-									                    </div>
-													</div>
-
 												</div>
 										</div>
 										<div class="modal-footer">
@@ -117,12 +110,24 @@
 												@method('put')
 												<div class="row">
 													<div class="col-md-12">
-														<label for="nama_arisan">Nama Arisan<small class="text-danger" id="nama_arisan">*</small></label>
+														<div class="form-group">
+									                        <label for="nama_arisan">Nama Arisan</label>
+									                          <input type="text" class="form-control" id="nama_arisan" name="nama_arisan" required="required" value="" >
+									                    </div>
+													</div>
 
-														<label for="jumlah_slot">Jumlah Slot <small class="text-danger" id="jumlah_slot">*</small></label>
+													<div class="col-md-12">
+														<div class="form-group">
+									                        <label for="jumlah_slot">Jumlah Slot</label>
+									                          <input type="text" class="form-control" id="jumlah_slot" name="jumlah_slot" required="required" value="" >
+									                    </div>
+													</div>
 
-														<label for="iuaran_perbulan">Iuran Perbulan <small class="text-danger" id="iuaran_perbulan">*</small></label>
-
+													<div class="col-md-12">
+														<div class="form-group">
+									                        <label for="iuran_perbulan">Iuran Perbulan</label>
+									                          <input type="text" class="form-control" id="iuran_perbulan" name="iuran_perbulan" required="required" value="" >
+									                    </div>
 													</div>
 												</div>
 										</div>
@@ -166,7 +171,7 @@
 											<td>{{ucwords($data->created_by)}}</td>
 											@roleCanAccess(['0'])
 												<td>
-													
+													<a href="javascript:;" url="{{route('arisan-ajax-edit', $data->id_arisan)}}" class="edit_data" url-update="{{route('arisan-update', $data->id_arisan)}}"><i class="fas fa-lg fa-fw m-r-10 fa-edit text-warning"></i></a>
 												</td>
 											@endroleCanAccess
 										</tr>
@@ -237,10 +242,9 @@
 			  type:"GET",
 			  success:function(response){
 			    $('form[name=update]').attr('action', url_update)
-			    $('input[name=nama_arisan]').val(response['nama_arisan'])
-			    $('input[name=jumlah_slot]').val(response['jumlah_slot'])
-			    $('input[name=iuran_perbulan]').val(response['iuaran_perbulan'])
-			    $('input[name=status_arisan]').val(response['status_arisan'])
+			    $('input[name=nama_arisan]').val(response.nama_arisan)
+			    $('input[name=jumlah_slot]').val(response.jumlah_slot)
+			    $('input[name=iuran_perbulan]').val(response.iuran_perbulan)
 			    $('#edit_form').modal().show()
 			  },
 			});
