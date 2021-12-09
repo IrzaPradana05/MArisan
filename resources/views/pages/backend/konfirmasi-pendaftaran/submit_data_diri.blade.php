@@ -90,17 +90,28 @@
 											<div class="row">
 												<div class="col-md-12">
 													<input required type="radio" class="" name="tipe_wallet" id="tipe_wallet1" value="Bank BCA" {{$data->tipe_wallet == 'Bank BCA' ? 'checked' : ''}}>
-													<label for="tipe_wallet1">Bank BCA</label>
+													<!-- <label for="tipe_wallet1">Bank BCA</label> -->
+													<img alt="image not found" class="img img-fluid img-thumbnail" src="{{asset('bayar/bca.png')}}" style="width: 10%;">
+
 													<input style="margin-left:50px;" required type="radio" class="" name="tipe_wallet" id="tipe_wallet2" value="Bank BRI" {{$data->tipe_wallet == 'Bank BRI' ? 'checked' : ''}}>
-													<label for="tipe_wallet2">Bank BRI</label>
+
+													<!-- <label for="tipe_wallet2">Bank BRI</label> -->
+													<img alt="image not found" class="img img-fluid img-thumbnail" src="{{asset('bayar/bri.png')}}" style="width: 10%;">
 													<input style="margin-left:50px;" required type="radio" class="" name="tipe_wallet" id="tipe_wallet3" value="Bank BNI" {{$data->tipe_wallet == 'Bank BNI' ? 'checked' : ''}}>
-													<label for="tipe_wallet3">Bank BNI</label>
+
+													<!-- <label for="tipe_wallet3">Bank BNI</label> -->
+													<img alt="image not found" class="img img-fluid img-thumbnail" src="{{asset('bayar/bni.png')}}" style="width: 10%;">
 													<input style="margin-left:50px;" required type="radio" class="" name="tipe_wallet" id="tipe_wallet4" value="GO-PAY" {{$data->tipe_wallet == 'GO-PAY' ? 'checked' : ''}}>
-													<label for="tipe_wallet4">GO-PAY</label>
+
+													<!-- <label for="tipe_wallet4">GO-PAY</label> -->
+													<img alt="image not found" class="img img-fluid img-thumbnail" src="{{asset('bayar/gopay.png')}}" style="width: 10%;">
 													<input style="margin-left:50px;" required type="radio" class="" name="tipe_wallet" id="tipe_wallet5" value="OVO" {{$data->tipe_wallet == 'OVO' ? 'checked' : ''}}>
-													<label for="tipe_wallet5">OVO</label>
+
+													<!-- <label for="tipe_wallet5">OVO</label> -->
+													<img alt="image not found" class="img img-fluid img-thumbnail" src="{{asset('bayar/ovo.png')}}" style="width: 10%;">
 													<input style="margin-left:50px;" required type="radio" class="" name="tipe_wallet" id="tipe_wallet6" value="DANA" {{$data->tipe_wallet == 'DANA' ? 'checked' : ''}}>
-													<label for="tipe_wallet6">DANA</label>
+													<!-- <label for="tipe_wallet6">DANA</label> -->
+													<img alt="image not found" class="img img-fluid img-thumbnail" src="{{asset('bayar/dana.png')}}" style="width: 10%;">
 												</div>
 												<!-- <div class="col-md-3"></div> -->
 												<!-- <div class="col-md-3"></div> -->
