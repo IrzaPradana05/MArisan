@@ -177,7 +177,9 @@
 											<td>{{ucwords($data->pembuat)}}</td>
 											@roleCanAccess(['1'])
 												<td>
-													<a href="javascript:;" url="{{route('arisan-ajax-edit', $data->id_arisan)}}" class="edit_data" url-update="{{route('arisan-update', $data->id_arisan)}}"><i class="fas fa-lg fa-fw m-r-10 fa-edit text-warning"></i></a>
+													@if(!in_array($data->status_arisan, [0,2,3]))
+														<a href="javascript:;" url="{{route('arisan-ajax-edit', $data->id_arisan)}}" class="edit_data" url-update="{{route('arisan-update', $data->id_arisan)}}"><i class="fas fa-lg fa-fw m-r-10 fa-edit text-warning"></i></a>
+													@endif
 												</td>
 											@endroleCanAccess
 										</tr>

@@ -98,9 +98,15 @@ class ArisanController extends Controller
 
     public function update_aktif(Request $request, $id)
     {
-        $arisan = DB::table('m_arisan')->where('id_arisan', $id)->update([
-                    'status_arisan'     => 2,
-                ]);
+        // $arisan = DB::table('m_arisan')->where('id_arisan', $id)->update([
+        //             'status_arisan'     => 2,
+        //         ]);
+
+        $slot = DB::table('t_slot_arisan')->where('id_arisan',$id)->get();
+        foreach ($slot as $data) {
+            # code...
+        }
+        dd($slot);
 
         Alert::success('Success', 'Arisan telah berlangsung!');
 
