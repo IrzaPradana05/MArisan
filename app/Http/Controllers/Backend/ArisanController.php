@@ -42,7 +42,7 @@ class ArisanController extends Controller
         $arisan = DB::table('m_arisan')->insert([
                     'nama_arisan'       => $request->nama_arisan,
                     'jumlah_slot'       => $request->jumlah_slot,
-                    'jumlah_slot'       => 1,
+                    'slot_terisi'       => 1,
                     'iuran_perbulan'    => $request->iuran_perbulan,
                     'status_arisan'     => 1,
                     'created_date'      => date('Y-m-d H:i:s'),
@@ -121,7 +121,8 @@ class ArisanController extends Controller
     public function join_arisan(Request $request, $id)
     {
         $cek_arisan = DB::table('m_arisan')->where('id_arisan',$id)->first();
-        if ($cek_arisan->slot_terisi < $cek_arisan->slot_terisi) {
+        if ($cek_arisan->slot_terisi < $cek_arisan->jumlah_slot) {
+
             DB::table('t_slot_arisan')->insert([
                         'id_arisan'         => $id,
                         'id_user'           => Auth::user()->id,

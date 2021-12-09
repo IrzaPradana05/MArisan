@@ -48,7 +48,7 @@
 						<!-- end panel-heading -->
 
 						<div class="panel-body">
-							@roleCanAccess(['0'])
+							@roleCanAccess(['1'])
 								<a href="#add_data" class="btn btn-primary btn-lg" data-toggle="modal">Buat Arisan</a>
 							@endroleCanAccess
 							<!-- #modal-without-animation -->
@@ -105,9 +105,6 @@
 											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 										</div>
 										<div class="modal-body">
-											<form name="update" action="" method="post">
-												@csrf
-												@method('put')
 												<div class="row">
 													<div class="col-md-12">
 														<div class="form-group">
@@ -144,7 +141,6 @@
 												<input type="submit" class="btn btn-primary" value="MULAI ARISAN">
 											</form>
 										</div>
-											</form>
 									</div>
 								</div>
 							</div>
@@ -163,7 +159,7 @@
 										<th class="text-nowrap">Status Arisan</th>
 										<th class="text-nowrap">Tanggal</th>
 										<th class="text-nowrap">Penulis</th>
-										@roleCanAccess(['0'])
+										@roleCanAccess(['1'])
 											<th class="text-nowrap" data-orderable="false">Aksi</th>
 										@endroleCanAccess
 									</tr>
@@ -179,7 +175,7 @@
 											<td><span class="{{status_arisan($data->status_arisan)[1]}}"><b>{{status_arisan($data->status_arisan)[0]}}</b></span></td>
 											<td>{{format_tanggal($data->created_date,true,false)}}</td>
 											<td>{{ucwords($data->pembuat)}}</td>
-											@roleCanAccess(['0'])
+											@roleCanAccess(['1'])
 												<td>
 													<a href="javascript:;" url="{{route('arisan-ajax-edit', $data->id_arisan)}}" class="edit_data" url-update="{{route('arisan-update', $data->id_arisan)}}"><i class="fas fa-lg fa-fw m-r-10 fa-edit text-warning"></i></a>
 												</td>
@@ -257,7 +253,7 @@
 				var url_aktif = "{{route('arisan-update-aktif',':id')}}";
 				    url_aktif = url_aktif.replace(':id', id_arisan);
 			    $('form[name=batal]').attr('action', url_batal)
-			    $('form[name=update]').attr('action', url_aktif)
+			    $('form[name=aktif]').attr('action', url_aktif)
 			    $('input[name=nama_arisan]').val(response.nama_arisan)
 			    $('input[name=jumlah_slot]').val(response.jumlah_slot)
 			    $('input[name=iuran_perbulan]').val(response.iuran_perbulan)

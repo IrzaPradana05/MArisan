@@ -148,11 +148,13 @@
 											<td>{{format_tanggal($data->created_date,true,false)}}</td>
 											<td>{{ucwords($data->pembuat)}}</td>
 											<td>
-												<form action="{{route('join-arisan', $data->id_arisan)}}" method="post">
-													@csrf
-													@method('post')
-													<input type="submit" class="btn btn-info" value="{{in_array(Auth::user()->id, $data->list_id_user) ? 'Joined' : 'Join'}}" {{in_array(Auth::user()->id, $data->list_id_user) ? 'disabled' : ''}}>
-												</form>
+												@if($data->status_arisan == '1')
+													<form action="{{route('join-arisan', $data->id_arisan)}}" method="post">
+														@csrf
+														@method('post')
+														<input type="submit" class="btn btn-info" value="{{in_array(Auth::user()->id, $data->list_id_user) ? 'Joined' : 'Join'}}" {{in_array(Auth::user()->id, $data->list_id_user) ? 'disabled' : ''}}>
+													</form>
+												@endif
 											</td>
 										</tr>
 									@endforeach

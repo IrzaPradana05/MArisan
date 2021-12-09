@@ -11,7 +11,7 @@ use Hash;
 class RegisterController extends Controller
 {
 	public function list_pendaftar(){
-	    $list = DB::table('users')->where('role',2)->where('status_aktif',0)->get();
+	    $list = DB::table('users')->whereIn('role',[1,2])->where('status_aktif',0)->get();
 
 	    return view('pages.backend.konfirmasi-pendaftaran.index',compact('list'));
 	}

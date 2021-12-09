@@ -24,14 +24,14 @@ Auth::routes();
 Route::middleware('auth')->group(function (){
 	Route::get('dashboard', 'Backend\DashboardController@index')->name('dashboard');
 
-	Route::middleware('role_user:0,2')->group(function(){
+	Route::middleware('role_user:0,1,2')->group(function(){
 		Route::prefix('konfirmasi-pendaftaran')->group(function (){
 			Route::middleware('role_user:0')->group(function(){
 				Route::get('/', 'RegisterController@list_pendaftar')->name('konfirmasi-pendaftaran-index');
 				Route::get('edit/{id}', 'RegisterController@edit_status_pendaftar')->name('konfirmasi-pendaftaran-edit');
 				Route::post('update-status-pendaftar/{id}', 'RegisterController@update_status_pendaftar')->name('update-status-pendaftar');
 			});
-			Route::middleware('role_user:2')->group(function(){
+			Route::middleware('role_user:1,2')->group(function(){
 				Route::get('form-data-diri', 'RegisterController@form_data_diri')->name('form-data-diri');
 				Route::post('submit-data-diri/{id}', 'RegisterController@submit_data_diri')->name('submit-data-diri');
 				// Route::get('delete/{id}', 'Backend\KamarController@delete')->name('kamar-delete');
