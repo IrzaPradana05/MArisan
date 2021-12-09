@@ -24,13 +24,19 @@ Auth::routes();
 Route::middleware('auth')->group(function (){
 	Route::get('dashboard', 'Backend\DashboardController@index')->name('dashboard');
 
-	Route::prefix('konfirmasi-pendaftaran')->group(function (){
-		Route::get('/', 'RegisterController@list_pendaftar')->name('konfirmasi-pendaftaran-index');
-		Route::get('form-data-diri', 'RegisterController@form_data_diri')->name('form-data-diri');
-		Route::post('submit-data-diri/{id}', 'RegisterController@submit_data_diri')->name('submit-data-diri');
-		Route::get('edit/{id}', 'RegisterController@edit_status_pendaftar')->name('konfirmasi-pendaftaran-edit');
-		Route::post('update-status-pendaftar/{id}', 'RegisterController@update_status_pendaftar')->name('update-status-pendaftar');
-		// Route::get('delete/{id}', 'Backend\KamarController@delete')->name('kamar-delete');
+	Route::middleware('role_user:0,2')->group(function(){
+		Route::prefix('konfirmasi-pendaftaran')->group(function (){
+			Route::middleware('role_user:0')->group(function(){
+				Route::get('/', 'RegisterController@list_pendaftar')->name('konfirmasi-pendaftaran-index');
+				Route::get('edit/{id}', 'RegisterController@edit_status_pendaftar')->name('konfirmasi-pendaftaran-edit');
+				Route::post('update-status-pendaftar/{id}', 'RegisterController@update_status_pendaftar')->name('update-status-pendaftar');
+			});
+			Route::middleware('role_user:2')->group(function(){
+				Route::get('form-data-diri', 'RegisterController@form_data_diri')->name('form-data-diri');
+				Route::post('submit-data-diri/{id}', 'RegisterController@submit_data_diri')->name('submit-data-diri');
+				// Route::get('delete/{id}', 'Backend\KamarController@delete')->name('kamar-delete');
+			});
+		});
 	});
 
 //===============================================================================
@@ -100,10 +106,17 @@ Route::middleware('auth')->group(function (){
 	//Route Arisan
 	Route::prefix('arisan')->group(function (){
 		Route::get('/', 'Backend\ArisanController@index')->name('arisan-index');
-		Route::middleware('role_user:0')->group(function(){
-			Route::post('', 'Backend\ArisanController@create')->name('arisan-create');
-			Route::get('edit/{id}', 'Backend\ArisanController@editAjax')->name('arisan-ajax-edit');
-			Route::put('update/{id}', 'Backend\ArisanController@update')->name('arisan-update');
+		Route::middleware('role_user:0,1,2')->group(function(){
+			Route::middleware('role_user:0,1')->group(function(){
+				Route::post('', 'Backend\ArisanController@create')->name('arisan-create');
+				Route::get('edit/{id}', 'Backend\ArisanController@editAjax')->name('arisan-ajax-edit');
+				Route::put('update/{id}', 'Backend\ArisanController@update')->name('arisan-update');
+				Route::post('batal/{id}', 'Backend\ArisanController@update_batal')->name('arisan-update-batal');
+				Route::post('aktif/{id}', 'Backend\ArisanController@update_aktif')->name('arisan-update-aktif');
+				Route::post('selesai/{id}', 'Backend\ArisanController@update_selesai')->name('arisan-update-selesai');
+			});
+			Route::post('join-arisan/{id}', 'Backend\ArisanController@join_arisan')->name('join-arisan');
+			Route::get('arisan-saya', 'Backend\ArisanController@arisan_saya')->name('arisan-saya');
 		});
 	});
 

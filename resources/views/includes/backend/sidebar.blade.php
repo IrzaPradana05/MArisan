@@ -38,52 +38,45 @@
                 </li>
                 @endif
             @endroleCanAccess -->
-            @roleCanAccess(['0'])
-            <li class=" {{Request::segment(1) == 'dashboard' ? 'active' : ''}}">
-                <a href="{{route('dashboard')}}">
-                    <i class="ion-ios-home bg-blue"></i>
-                    <span>Dashboard</span>
-                </a>
-            </li>
-                <li class="has-sub {{Request::segment(1) == 'pusat-data' ? 'active' : ''}}">
+            @roleCanAccess(['0','1','2'])
+            @if(Auth::user()->status_aktif == 1)
+                <li class=" {{Request::segment(1) == 'dashboard' ? 'active' : ''}}">
+                    <a href="{{route('dashboard')}}">
+                        <i class="ion-ios-home bg-blue"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="has-sub {{Request::segment(1) == 'arisan' ? 'active' : ''}}">
                     <a href="javascript:;">
                         <b class="caret"></b>
                         <i class="ion-ios-desktop bg-green"></i>
-                        <span>Pusat Data</span>
+                        <span>Arisan</span>
                     </a>
                     <ul class="sub-menu">
-                        <li class="{{Request::segment(2) == 'kelas' ? 'active' : ''}}"><a href="{{route('kelas-index')}}">Kelas</a></li>
-                        <li class="{{Request::segment(2) == 'admin' ? 'active' : ''}}"><a href="{{route('admin-index')}}">Admin BK</a></li>
-                        <li class="{{Request::segment(2) == 'siswa' ? 'active' : ''}}"><a href="{{route('siswa-index')}}">Siswa</a></li>
-                        <li class="{{Request::segment(2) == 'wali' ? 'active' : ''}}"><a href="{{route('wali-index')}}">Wali</a></li>
+                        <li class="{{Request::segment(1) == 'arisan' && Request::segment(2) == '' ? 'active' : ''}}"><a href="{{route('arisan-index')}}">Daftar Arisan</a></li>
+                        <li class="{{Request::segment(2) == 'arisan-saya' ? 'active' : ''}}"><a href="{{route('arisan-saya')}}">Arisan Saya</a></li>
                     </ul>
                 </li>
-            <li class=" {{Request::segment(1) == 'pelanggaran' ? 'active' : ''}}">
-                <a href="{{route('pelanggaran-index')}}">
-                    <i class="ion-ios-book bg-red"></i>
-                    <span>Pelanggaran Siswa</span>
-                </a>
-            </li>
-            @endroleCanAccess
-            @roleCanAccess(['0'])
-                <li class=" {{Request::segment(1) == 'surat-tindak' ? 'active' : ''}}">
-                    <a href="{{route('surat-tindak-index')}}">
-                        <i class="ion-ios-document bg-yellow"></i>
-                        <span>Surat Tindak Lanjut</span>
+                @roleCanAccess(['0'])
+                <li class=" {{Request::segment(1) == 'konfirmasi-pendaftaran' ? 'active' : ''}}">
+                    <a href="{{route('konfirmasi-pendaftaran-index')}}">
+                        <i class="ion-ios-people bg-yellow"></i>
+                        <span>Konfirmasi Pendaftaran</span>
                     </a>
                 </li>
-            @endroleCanAccess
-            @roleCanAccess(['0'])
-            <li class=" {{Request::segment(1) == 'prestasi' ? 'active' : ''}}">
+                @endroleCanAccess
+            @endif
+            
+            <!-- <li class=" {{Request::segment(1) == 'surat-tindak' ? 'active' : ''}}">
+                <a href="{{route('surat-tindak-index')}}">
+                    <i class="ion-ios-document bg-yellow"></i>
+                    <span>Surat Tindak Lanjut</span>
+                </a>
+            </li> -->
+            <!-- <li class=" {{Request::segment(1) == 'prestasi' ? 'active' : ''}}">
                 <a href="{{route('prestasi-index')}}">
                     <i class="ion-ios-trophy bg-purple"></i>
                     <span>Prestasi Siswa</span>
-                </a>
-            </li>
-            <li class=" {{Request::segment(1) == 'arisan' ? 'active' : ''}}">
-                <a href="{{route('arisan-index')}}">
-                    <i class="ion-ios-trophy bg-purple"></i>
-                    <span>Arisan</span>
                 </a>
             </li>
             <li class=" {{Request::segment(1) == 'konseling' ? 'active' : ''}}">
@@ -109,7 +102,7 @@
                     <i class="ion-ios-create bg-cyan"></i>
                     <span>Tes Reflin</span>
                 </a>
-            </li>
+            </li> -->
             @endroleCanAccess
             
             <!-- begin sidebar minify button -->

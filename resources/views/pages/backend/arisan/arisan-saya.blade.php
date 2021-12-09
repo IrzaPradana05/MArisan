@@ -24,11 +24,11 @@
 			<!-- begin breadcrumb -->
 			<ol class="breadcrumb pull-right">
 				<li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-				<li class="breadcrumb-item active">Arisan</li>
+				<li class="breadcrumb-item active">Arisan Saya</li>
 			</ol>
 			<!-- end breadcrumb -->
 			<!-- begin page-header -->
-			<h1 class="page-header">Data Arisan</h1>
+			<h1 class="page-header">Arisan Saya</h1>
 			<!-- end page-header -->
 			
 			<!-- begin row -->
@@ -48,9 +48,6 @@
 						<!-- end panel-heading -->
 
 						<div class="panel-body">
-							@roleCanAccess(['0'])
-								<a href="#add_data" class="btn btn-primary btn-lg" data-toggle="modal">Buat Arisan</a>
-							@endroleCanAccess
 							<!-- #modal-without-animation -->
 							<div class="modal" id="add_data">
 								<div class="modal-dialog modal-md">
@@ -67,21 +64,21 @@
 													<div class="col-md-12">
 														<div class="form-group">
 									                        <label for="nama_arisan">Nama Arisan</label>
-									                          <input type="text" class="form-control" id="add_nama_arisan" name="nama_arisan" required="required" placeholder="Masukkan Nama Arisan ..." >
+									                          <input type="text" class="form-control" id="nama_arisan" name="nama_arisan" required="required" placeholder="Masukkan Nama Arisan ..." >
 									                    </div>
 													</div>
 
 													<div class="col-md-12">
 														<div class="form-group">
 									                        <label for="jumlah_slot">Jumlah Slot</label>
-									                          <input type="text" class="form-control" id="add_jumlah_slot" name="jumlah_slot" required="required" placeholder="Masukkan Jumlah slot ..." >
+									                          <input type="text" class="form-control" id="jumlah_slot" name="jumlah_slot" required="required" placeholder="Masukkan Jumlah slot ..." >
 									                    </div>
 													</div>
 
 													<div class="col-md-12">
 														<div class="form-group">
 									                        <label for="iuran_perbulan">Iuran Perbulan</label>
-									                          <input type="text" class="form-control" id="add_iuran_perbulan" name="iuran_perbulan" required="required" placeholder="Masukkan Iuran Perbulan ..." >
+									                          <input type="text" class="form-control" id="iuran_perbulan" name="iuran_perbulan" required="required" placeholder="Masukkan Iuran Perbulan ..." >
 									                    </div>
 													</div>
 
@@ -101,7 +98,7 @@
 								<div class="modal-dialog modal-md">
 									<div class="modal-content">
 										<div class="modal-header">
-											<h4 class="modal-title">Detail Arisan</h4>
+											<h4 class="modal-title">Edit Data Arisan</h4>
 											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 										</div>
 										<div class="modal-body">
@@ -112,37 +109,27 @@
 													<div class="col-md-12">
 														<div class="form-group">
 									                        <label for="nama_arisan">Nama Arisan</label>
-									                          <input readonly type="text" class="form-control" id="nama_arisan" name="nama_arisan" required="required" value="" >
+									                          <input type="text" class="form-control" id="nama_arisan" name="nama_arisan" required="required" value="" >
 									                    </div>
 													</div>
 
 													<div class="col-md-12">
 														<div class="form-group">
 									                        <label for="jumlah_slot">Jumlah Slot</label>
-									                          <input readonly type="text" class="form-control" id="jumlah_slot" name="jumlah_slot" required="required" value="" >
+									                          <input type="text" class="form-control" id="jumlah_slot" name="jumlah_slot" required="required" value="" >
 									                    </div>
 													</div>
 
 													<div class="col-md-12">
 														<div class="form-group">
 									                        <label for="iuran_perbulan">Iuran Perbulan</label>
-									                          <input readonly type="text" class="form-control" id="iuran_perbulan" name="iuran_perbulan" required="required" value="" >
+									                          <input type="text" class="form-control" id="iuran_perbulan" name="iuran_perbulan" required="required" value="" >
 									                    </div>
 													</div>
 												</div>
 										</div>
 										<div class="modal-footer">
-											<!-- <input type="submit" class="btn btn-success" value="Update"> -->
-											<form action="" method="post" name="batal">
-												@csrf
-												@method('post')
-												<input type="submit" class="btn btn-danger" value="BATALKAN ARISAN">
-											</form>
-											<form action="" method="post" name="aktif">
-												@csrf
-												@method('post')
-												<input type="submit" class="btn btn-primary" value="MULAI ARISAN">
-											</form>
+											<input type="submit" class="btn btn-success" value="Update">
 										</div>
 											</form>
 									</div>
@@ -158,7 +145,7 @@
 									<tr>
 										<th width="1%">No</th>
 										<th class="text-nowrap">Nama Arisan</th>
-										<th class="text-nowrap">Jumlah Slot</th>
+										<th class="text-nowrap">Slot</th>
 										<th class="text-nowrap">Iuran Perbulan</th>
 										<th class="text-nowrap">Status Arisan</th>
 										<th class="text-nowrap">Tanggal</th>
@@ -245,32 +232,19 @@
 
 		//Tampilkan form modal edit
 		$('.edit_data').click(function (){
-			// var url_update = $(this).attr('url-update');
+			var url_update = $(this).attr('url-update');
 			ajaxSetup;
 			$.ajax({
 			  url: $(this).attr('url'),
 			  type:"GET",
 			  success:function(response){
-			  	var id_arisan = response.id_arisan;
-				var url_batal = "{{route('arisan-update-batal',':id')}}";
-				    url_batal = url_batal.replace(':id', id_arisan);
-				var url_aktif = "{{route('arisan-update-aktif',':id')}}";
-				    url_aktif = url_aktif.replace(':id', id_arisan);
-			    $('form[name=batal]').attr('action', url_batal)
-			    $('form[name=update]').attr('action', url_aktif)
+			    $('form[name=update]').attr('action', url_update)
 			    $('input[name=nama_arisan]').val(response.nama_arisan)
 			    $('input[name=jumlah_slot]').val(response.jumlah_slot)
 			    $('input[name=iuran_perbulan]').val(response.iuran_perbulan)
 			    $('#edit_form').modal().show()
 			  },
 			});
-		});
-
-		//Tampilkan form modal add
-		$('#add_data').click(function (){
-		    $('input[id=nama_arisan]').val("")
-		    $('input[id=jumlah_slot]').val("")
-		    $('input[id=iuran_perbulan]').val("")
 		});
 	</script>
 

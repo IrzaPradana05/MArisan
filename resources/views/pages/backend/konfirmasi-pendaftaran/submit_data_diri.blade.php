@@ -86,6 +86,27 @@
 											<textarea required type="text" class="form-control" name="alamat" id="alamat">{{$data->alamat}}</textarea><br>
 											<label for="surat_komitmen">Surat Komitmen</label>
 											<input required type="file" class="form-control" name="surat_komitmen" id="surat_komitmen"><br>
+											<label for="tipe_wallet">Tipe Wallet</label>
+											<div class="row">
+												<div class="col-md-12">
+													<input required type="radio" class="" name="tipe_wallet" id="tipe_wallet1" value="Bank BCA" {{$data->tipe_wallet == 'Bank BCA' ? 'checked' : ''}}>
+													<label for="tipe_wallet1">Bank BCA</label>
+													<input style="margin-left:50px;" required type="radio" class="" name="tipe_wallet" id="tipe_wallet2" value="Bank BRI" {{$data->tipe_wallet == 'Bank BRI' ? 'checked' : ''}}>
+													<label for="tipe_wallet2">Bank BRI</label>
+													<input style="margin-left:50px;" required type="radio" class="" name="tipe_wallet" id="tipe_wallet3" value="Bank BNI" {{$data->tipe_wallet == 'Bank BNI' ? 'checked' : ''}}>
+													<label for="tipe_wallet3">Bank BNI</label>
+													<input style="margin-left:50px;" required type="radio" class="" name="tipe_wallet" id="tipe_wallet4" value="GO-PAY" {{$data->tipe_wallet == 'GO-PAY' ? 'checked' : ''}}>
+													<label for="tipe_wallet4">GO-PAY</label>
+													<input style="margin-left:50px;" required type="radio" class="" name="tipe_wallet" id="tipe_wallet5" value="OVO" {{$data->tipe_wallet == 'OVO' ? 'checked' : ''}}>
+													<label for="tipe_wallet5">OVO</label>
+													<input style="margin-left:50px;" required type="radio" class="" name="tipe_wallet" id="tipe_wallet6" value="DANA" {{$data->tipe_wallet == 'DANA' ? 'checked' : ''}}>
+													<label for="tipe_wallet6">DANA</label>
+												</div>
+												<!-- <div class="col-md-3"></div> -->
+												<!-- <div class="col-md-3"></div> -->
+											</div>
+											<label for="no_wallet">No. Wallet</label>
+											<input required type="text" class="form-control" name="no_wallet" id="no_wallet" value="{{$data->no_wallet}}"><br>
 										</div>
 									</div>
 									<div class="row">

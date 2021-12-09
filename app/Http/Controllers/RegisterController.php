@@ -43,6 +43,7 @@ class RegisterController extends Controller
 	    $surat_komitmen = uploadOrUpdateImage($request->file('surat_komitmen'), $fileName->surat_komitmen, $destinationPath = 'images/surat-komitmen');
 
 	    $arr_update = [
+	        'status_aktif' => 0,
 	        'name' => $request->name,
 	        'no_hp' => $request->no_hp,
 	        'nik' => $request->nik,
@@ -51,6 +52,8 @@ class RegisterController extends Controller
 	        'tanggal_lahir' => $request->tanggal_lahir,
 	        'alamat' => $request->alamat,
 	        'surat_komitmen' => $surat_komitmen,
+	        'tipe_wallet' => $request->tipe_wallet,
+	        'no_wallet' => $request->no_wallet,
 	    ];
 	    DB::table('users')->where('id',$id)->update($arr_update);
 

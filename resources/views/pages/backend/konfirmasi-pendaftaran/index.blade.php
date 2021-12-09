@@ -73,6 +73,10 @@
 														<input required type="text" class="form-control" name="tempat_lahir" id="tempat_lahir" value="" disabled><br>
 														<label for="tanggal_lahir">Tgl. Lahir</label>
 														<input required type="date" class="form-control" name="tanggal_lahir" id="tanggal_lahir" value="" disabled><br>
+														<label for="tipe_wallet">Tipe Wallet</label>
+														<input required type="text" class="form-control" name="tipe_wallet" id="tanggal_lahir" value="" disabled><br>
+														<label for="no_wallet">No. Wallet</label>
+														<input required type="text" class="form-control" name="no_wallet" id="tanggal_lahir" value="" disabled><br>
 														<label for="alamat">Alamat</label>
 														<textarea required type="text" class="form-control" name="alamat" id="alamat" disabled></textarea><br>
 														<label for="surat_komitmen">Surat Komitmen</label><br>
@@ -82,7 +86,7 @@
 															<option value="">-- Pilih Status --</option>
 															<option value="1">Valid</option>
 															<option value="2">Tidak Valid</option>
-														</select>
+														</select><br>
 													</div>
 												</div>
 										</div>
@@ -187,6 +191,8 @@
 			    $('input[name=nik]').val(response.nik)
 			    $('input[name=tempat_lahir]').val(response.tempat_lahir)
 			    $('input[name=tanggal_lahir]').val(response.tanggal_lahir)
+			    $('input[name=tipe_wallet]').val(response.tipe_wallet)
+			    $('input[name=no_wallet]').val(response.no_wallet)
 			    $('textarea[name=alamat]').text(response.alamat)
 			    $('img[name=surat]').attr('src', "{{asset('public')}}/"+response.surat_komitmen)
 			    $('#edit_form').modal().show()
