@@ -55,6 +55,7 @@
                     <ul class="sub-menu">
                         <li class="{{Request::segment(1) == 'arisan' && Request::segment(2) == '' ? 'active' : ''}}"><a href="{{route('arisan-index')}}">Daftar Arisan</a></li>
                         <li class="{{Request::segment(2) == 'arisan-saya' ? 'active' : ''}}"><a href="{{route('arisan-saya')}}">Arisan Saya</a></li>
+                        <li class="{{Request::segment(2) == 'daftar-invoice' ? 'active' : ''}}"><a href="{{route('daftar-invoice')}}">Daftar Invoice</a></li>
                     </ul>
                 </li>
                 @roleCanAccess(['0'])

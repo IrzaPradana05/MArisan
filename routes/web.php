@@ -107,16 +107,24 @@ Route::middleware('auth')->group(function (){
 	Route::prefix('arisan')->group(function (){
 		Route::get('/', 'Backend\ArisanController@index')->name('arisan-index');
 		Route::middleware('role_user:0,1,2')->group(function(){
-			Route::middleware('role_user:0,1')->group(function(){
+			Route::middleware('role_user:1')->group(function(){
 				Route::post('', 'Backend\ArisanController@create')->name('arisan-create');
 				Route::get('edit/{id}', 'Backend\ArisanController@editAjax')->name('arisan-ajax-edit');
 				Route::put('update/{id}', 'Backend\ArisanController@update')->name('arisan-update');
 				Route::post('batal/{id}', 'Backend\ArisanController@update_batal')->name('arisan-update-batal');
 				Route::post('aktif/{id}', 'Backend\ArisanController@update_aktif')->name('arisan-update-aktif');
 				Route::post('selesai/{id}', 'Backend\ArisanController@update_selesai')->name('arisan-update-selesai');
+				Route::get('daftar-invoice', 'Backend\ArisanController@list_invoice')->name('daftar-invoice');
+				Route::get('detail-periode/{id}', 'Backend\ArisanController@detail_periode')->name('detail-periode');
 			});
 			Route::post('join-arisan/{id}', 'Backend\ArisanController@join_arisan')->name('join-arisan');
 			Route::get('arisan-saya', 'Backend\ArisanController@arisan_saya')->name('arisan-saya');
+			Route::get('tanggungan-arisan/{id}', 'Backend\ArisanController@tanggungan_arisan')->name('tanggungan-arisan');
+			Route::get('invoice/{id}', 'Backend\ArisanController@invoice')->name('invoice');
+			Route::get('cek-invoice/{id}', 'Backend\ArisanController@cek_bukti_iuran')->name('cek-invoice');
+			Route::post('pembayaran/{id}', 'Backend\ArisanController@pembayaran')->name('pembayaran');
+			Route::post('update-status-pembayaran/{id}', 'Backend\ArisanController@update_status_pembayaran')->name('update-status-pembayaran');
+			Route::get('status-bayar-periode/{id}/{periode}', 'Backend\ArisanController@status_bayar_periode')->name('status-bayar-periode');
 		});
 	});
 

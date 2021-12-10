@@ -150,9 +150,7 @@
 										<th class="text-nowrap">Status Arisan</th>
 										<th class="text-nowrap">Tanggal</th>
 										<th class="text-nowrap">Penulis</th>
-										@roleCanAccess(['0'])
-											<th class="text-nowrap" data-orderable="false">Aksi</th>
-										@endroleCanAccess
+										<th class="text-nowrap" data-orderable="false"></th>
 									</tr>
 								</thead>
 								<tbody>
@@ -166,11 +164,11 @@
 											<td><span class="{{status_arisan($data->status_arisan)[1]}}"><b>{{status_arisan($data->status_arisan)[0]}}</b></span></td>
 											<td>{{format_tanggal($data->created_date,true,false)}}</td>
 											<td>{{ucwords($data->pembuat)}}</td>
-											@roleCanAccess(['0'])
+											@if($data->status_arisan == '2')
 												<td>
-													<a href="javascript:;" url="{{route('arisan-ajax-edit', $data->id_arisan)}}" class="edit_data" url-update="{{route('arisan-update', $data->id_arisan)}}"><i class="fas fa-lg fa-fw m-r-10 fa-edit text-warning"></i></a>
+													<a href="{{route('tanggungan-arisan', $data->id_arisan)}}"><i class="fas fa-lg fa-fw m-r-10 text-warning">Bayar</i></a>
 												</td>
-											@endroleCanAccess
+											@endif
 										</tr>
 									@endforeach
 								</tbody>

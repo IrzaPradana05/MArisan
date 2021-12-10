@@ -80,7 +80,7 @@
 														<label for="alamat">Alamat</label>
 														<textarea required type="text" class="form-control" name="alamat" id="alamat" disabled></textarea><br>
 														<label for="surat_komitmen">Surat Komitmen</label><br>
-														<img class="media-object" name="surat" src="" alt=""><br><br>
+														<img class="media-object" name="surat" src="" alt="" style="max-width: 600px;"><br><br>
 														<label for="status_aktif">Status Data</label>
 														<select required class="form-control" name="status_aktif" id="status_aktif">
 															<option value="">-- Pilih Status --</option>

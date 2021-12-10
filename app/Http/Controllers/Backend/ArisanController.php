@@ -98,15 +98,30 @@ class ArisanController extends Controller
 
     public function update_aktif(Request $request, $id)
     {
-        // $arisan = DB::table('m_arisan')->where('id_arisan', $id)->update([
-        //             'status_arisan'     => 2,
-        //         ]);
+        $arisan = DB::table('m_arisan')->where('id_arisan', $id)->update([
+                    'status_arisan'     => 2,
+                ]);
 
         $slot = DB::table('t_slot_arisan')->where('id_arisan',$id)->get();
+        $arr_ins_iuran=[];
         foreach ($slot as $data) {
-            # code...
+            
+            $now = strtotime(date('Y-m-d'));
+            for ($i=0; $i < count($slot); $i++) {
+                $tenggat = date("Y-m-d", strtotime("+".($i+1)." month", $now)); 
+                $ins_iuran = [
+                    'id_arisan' => $id,
+                    'periode' => ($i+1),
+                    'tenggat_waktu' => $tenggat,
+                    'status_bayar' => 0,
+                    'id_user' => $data->id_user,
+                ];
+                $arr_ins_iuran[] = $ins_iuran;
+            }
+
         }
-        dd($slot);
+        
+        DB::table('t_iuran_arisan')->insert($arr_ins_iuran);
 
         Alert::success('Success', 'Arisan telah berlangsung!');
 
@@ -161,6 +176,162 @@ class ArisanController extends Controller
                         ->get();
 
         return view('pages.backend.arisan.arisan-saya', compact('arisan'));
+    }
+
+    public function tanggungan_arisan($id)
+    {
+        $arisan = DB::table('m_arisan')->where('id_arisan',$id)->first();
+        $data_iuran = DB::table('t_iuran_arisan as a')
+                        ->leftJoin('m_arisan as b', 'a.id_arisan','=','b.id_arisan')
+                        ->leftJoin('users as c', 'a.id_user','=','c.id')
+                        ->select('a.*','b.*','a.periode as periode','c.name as pembuat')
+                        ->where('a.id_user',Auth::user()->id)
+                        ->orderBy('a.tenggat_waktu','asc')
+                        ->get();
+
+        return view('pages.backend.arisan.tanggungan-arisan', compact('arisan','data_iuran'));
+    }
+
+    public function invoice($id)
+    {
+        $arisan = DB::table('m_arisan as a')
+                    ->leftJoin('users as b','a.created_by','=','b.id')
+                    ->select('a.*','b.*','b.name as pembuat')
+                    ->where('a.id_arisan', $id)->first();
+
+        return $arisan;
+    }
+
+    public function pembayaran(Request $request, $id)
+    {
+        $fileName = DB::table('t_iuran_arisan')->where('id',$id)->first();
+        $bukti_bayar = uploadOrUpdateImage($request->file('bukti_bayar'), $fileName->bukti_bayar, $destinationPath = 'images/bukti-bayar');
+
+        $arisan = DB::table('t_iuran_arisan as a')
+                    ->leftJoin('m_arisan as b', 'a.id_arisan','=','b.id_arisan')
+                    ->select('b.created_by','b.nama_arisan','b.iuran_perbulan','a.periode')
+                    ->where('id',$id)->first();
+
+        if ($arisan->created_by == Auth::user()->id) {
+            $status_bayar = ['status_bayar'=>'1','bukti_bayar'=>$bukti_bayar];
+
+            $ins_h_keuangan = [
+                'tipe' => 1,
+                'catatan' => "Pembayaran iuran ".ucwords($arisan->nama_arisan)." Periode ".$arisan->periode,
+                'nominal' => $arisan->iuran_perbulan,
+                'created_date' => date('Y-m-d H:i:s'),
+                'created_by' => Auth::user()->id,
+                'id_user' => Auth::user()->id,
+            ];
+            DB::table('h_keuangan')->insert($ins_h_keuangan);
+        }else{
+            $status_bayar = ['status_bayar'=>'2','bukti_bayar'=>$bukti_bayar];
+        }
+
+        DB::table('t_iuran_arisan')
+            ->where('id',$id)
+            ->update($status_bayar);
+
+        if ($arisan->created_by == Auth::user()->id) {
+            Alert::success('Success', 'Data pembayaran anda berhasil.');
+        }else{
+            Alert::success('Success', 'Data pembayaran anda sedang diperiksa oleh panitia.');
+        }
+
+        return redirect()->back();
+    }
+
+    // public function list_pembayaran_anggota($id)
+    // {
+    //     DB::table('t_iuran_arisan')->where('id_arisan',$id)->whereNotIn('status_bayar',[1,2,3])->get();
+
+    //     return redirect()->back();
+    // }
+
+    public function cek_bukti_iuran($id)
+    {
+        $iuran = DB::table('t_iuran_arisan as a')
+                    ->leftJoin('m_arisan as b', 'a.id_arisan','=','b.id_arisan')
+                    ->leftJoin('users as c', 'a.id_user','=','c.id')
+                    ->select('a.*','b.iuran_perbulan','c.name as pembayar','c.tipe_wallet','c.no_wallet')
+                    ->where('a.id', $id)->first();
+
+        return $iuran;
+    }
+
+    public function update_status_pembayaran(Request $request, $id)
+    {
+        $arisan = DB::table('t_iuran_arisan as a')
+                    ->leftJoin('m_arisan as b', 'a.id_arisan','=','b.id_arisan')
+                    ->select('b.created_by','b.nama_arisan','b.iuran_perbulan','a.periode','a.id_user')
+                    ->where('id',$id)->first();
+
+        if ($request->status_bayar == '1') {
+            $ins_h_keuangan = [
+                'tipe' => 1,
+                'catatan' => "Pembayaran iuran ".ucwords($arisan->nama_arisan)." Periode ".$arisan->periode,
+                'nominal' => $arisan->iuran_perbulan,
+                'created_date' => date('Y-m-d H:i:s'),
+                'created_by' => Auth::user()->id,
+                'id_user' => $arisan->id_user,
+            ];
+            DB::table('h_keuangan')->insert($ins_h_keuangan);
+        }
+
+        DB::table('t_iuran_arisan')
+            ->where('id',$id)
+            ->update(['status_bayar'=>$request->status_bayar]);
+
+        Alert::success('Success', 'Data berhasil disimpan.');
+
+        return redirect()->back();
+    }
+
+    public function list_invoice()
+    {
+        $array_id_arisan = DB::table('m_arisan')->where('created_by',Auth::user()->id)->pluck('id_arisan')->toArray();
+
+        $iuran = DB::table('t_iuran_arisan as a')
+                    ->leftJoin('m_arisan as b','a.id_arisan','=','b.id_arisan')
+                    ->leftJoin('users as c','a.id_user','=','c.id')
+                    ->select('a.id','b.*','a.periode','c.name as pembuat')
+                    ->whereIn('a.id_arisan',$array_id_arisan)->where('a.status_bayar','2')->orderBy('a.id','desc')->get();
+
+        return view('pages.backend.arisan.daftar-invoice', compact('iuran'));
+    }
+
+    public function detail_periode($id)
+    {
+        $arisan = DB::table('m_arisan')->where('id_arisan',$id)->first();
+
+        $data_periode = [];
+        for ($i=0; $i < $arisan->slot_terisi; $i++) { 
+            $arr_baris = [
+                'id_arisan' => $arisan->id_arisan,
+                'periode' => ($i+1),
+            ];
+            $data_periode[] = (object) $arr_baris;
+        }
+
+        return view('pages.backend.arisan.detail-periode', compact('arisan','data_periode'));
+    }
+
+    public function status_bayar_periode($id,$periode)
+    {
+        $arisan = DB::table('m_arisan')->where('id_arisan',$id)->first();
+
+        $data_iuran = DB::table('t_iuran_arisan as a')
+                        ->leftJoin('m_arisan as b','a.id_arisan','=','b.id_arisan')
+                        ->leftJoin('users as c','a.id_user','=','c.id')
+                        ->select('a.*','c.name as pembayar',DB::raw('IF(status_bayar = 0, "Belum Bayar", IF(status_bayar = 1, "Lunas", IF(status_bayar = 2, "Diperiksa", IF(status_bayar = 3, "Tidak Valid", "")))) as nama_status_bayar'))
+                        ->where('a.periode',$periode);
+
+        $id_status_bayar = $data_iuran->pluck('status_bayar')->toArray();
+        $id_status_bayar = array_unique($id_status_bayar);
+
+        $data_iuran = $data_iuran->get();
+
+        return view('pages.backend.arisan.status-bayar-periode', compact('data_iuran','id_status_bayar'));
     }
 
 }
