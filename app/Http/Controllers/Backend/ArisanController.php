@@ -331,7 +331,82 @@ class ArisanController extends Controller
 
         $data_iuran = $data_iuran->get();
 
-        return view('pages.backend.arisan.status-bayar-periode', compact('data_iuran','id_status_bayar'));
+        return view('pages.backend.arisan.status-bayar-periode', compact('arisan','data_iuran','id_status_bayar','id','periode'));
+    }
+
+    public function undi_pemenang($id,$periode)
+    {
+        $arisan = DB::table('m_arisan')->where('id_arisan',$id)->first();
+        $slot_arisan = DB::table('t_slot_arisan as a')
+                        ->leftJoin('users as b','a.id_user','=','b.id')
+                        ->select('a.*','b.name as pemenang')
+                        ->where('a.id_arisan',$id)->where('a.status_undian','0')->inRandomOrder()->first();
+
+        DB::table('t_slot_arisan')->where('id',$slot_arisan->id)->update(['status_undian'=>2,'tgl_menang'=>date('Y-m-d H:i:s'),'periode'=>$periode]);
+
+        Alert::info('Selamat!', ucwords($slot_arisan->pemenang).' telah menjadi pemenang periode ini!')->autoCLose(false);
+
+        if (($arisan->periode+1) == $arisan->slot_terisi) {
+            DB::table('m_arisan')->where('id_arisan',$id)->update(['periode'=>DB::raw('periode+1'),'status_arisan'=>'3']);
+            return redirect()->route('arisan-index');
+        }else{
+            DB::table('m_arisan')->where('id_arisan',$id)->update(['periode'=>DB::raw('periode+1')]);
+        }
+
+        // return view('pages.backend.arisan.status-bayar-periode', compact('data_iuran','id_status_bayar'));
+        return redirect()->back();
+    }
+
+    public function list_pemenang()
+    {
+        $pemenang = DB::table('t_slot_arisan as a')
+                        ->leftJoin('users as b','a.id_user','=','b.id')
+                        ->leftJoin('m_arisan as c','a.id_arisan','=','c.id_arisan')
+                        ->select('a.*','b.name as pemenang','c.nama_arisan',DB::raw('IF(status_undian = 2, "Menunggu Pembayaran", IF(status_undian = 1, "Terbayar", "")) as nama_status_undian'))
+                        ->whereIn('a.status_undian',[1,2])->get();
+
+        return view('pages.backend.arisan.daftar-pemenang', compact('pemenang'));
+    }
+
+    public function form_transfer_pemenang($id)
+    {
+        $pemenang = DB::table('t_slot_arisan as a')
+                        ->leftJoin('users as b','a.id_user','=','b.id')
+                        ->leftJoin('m_arisan as c','a.id_arisan','=','c.id_arisan')
+                        ->select('b.*','c.*',DB::raw('c.iuran_perbulan*c.slot_terisi as total_nominal'))
+                        ->where('a.id',$id)->first();
+
+        return $pemenang;
+    }
+
+    public function update_status_pemenang(Request $request, $id)
+    {
+        $fileName = DB::table('t_slot_arisan')->where('id',$id)->first();
+        $bukti_transfer = uploadOrUpdateImage($request->file('bukti_transfer'), $fileName->bukti_transfer, $destinationPath = 'images/bukti-transfer');
+
+        $arisan = DB::table('t_slot_arisan as a')
+                    ->leftJoin('m_arisan as b', 'a.id_arisan','=','b.id_arisan')
+                    ->leftJoin('users as c', 'a.id_user','=','c.id')
+                    ->select('b.*','a.id_user','c.name')
+                    ->where('a.id',$id)->first();
+
+        $ins_h_keuangan = [
+            'tipe' => 2,
+            'catatan' => "Pembayaran dana ".ucwords($arisan->nama_arisan)." Kepada ".$arisan->name." Periode ".$arisan->periode,
+            'nominal' => ($arisan->iuran_perbulan * $arisan->slot_terisi),
+            'created_date' => date('Y-m-d H:i:s'),
+            'created_by' => Auth::user()->id,
+            'id_user' => $arisan->id_user,
+        ];
+        DB::table('h_keuangan')->insert($ins_h_keuangan);
+
+        DB::table('t_slot_arisan')
+            ->where('id',$id)
+            ->update(['bukti_transfer'=>$bukti_transfer,'status_undian'=>'1']);
+
+        Alert::success('Success', 'Data berhasil disimpan.');
+
+        return redirect()->back();
     }
 
 }

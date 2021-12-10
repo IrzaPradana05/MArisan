@@ -53,18 +53,21 @@
                         <span>Arisan</span>
                     </a>
                     <ul class="sub-menu">
-                        <li class="{{Request::segment(1) == 'arisan' && Request::segment(2) == '' ? 'active' : ''}}"><a href="{{route('arisan-index')}}">Daftar Arisan</a></li>
+                        @roleCanAccess(['1'])
+                            <li class="{{Request::segment(1) == 'arisan' && Request::segment(2) == '' ? 'active' : ''}}"><a href="{{route('arisan-index')}}">Daftar Arisan</a></li>
+                            <li class="{{Request::segment(2) == 'daftar-invoice' ? 'active' : ''}}"><a href="{{route('daftar-invoice')}}">Daftar Invoice</a></li>
+                            <li class="{{Request::segment(2) == 'daftar-pemenang' ? 'active' : ''}}"><a href="{{route('daftar-pemenang')}}">Daftar Pemenang</a></li>
+                        @endroleCanAccess
                         <li class="{{Request::segment(2) == 'arisan-saya' ? 'active' : ''}}"><a href="{{route('arisan-saya')}}">Arisan Saya</a></li>
-                        <li class="{{Request::segment(2) == 'daftar-invoice' ? 'active' : ''}}"><a href="{{route('daftar-invoice')}}">Daftar Invoice</a></li>
                     </ul>
                 </li>
                 @roleCanAccess(['0'])
-                <li class=" {{Request::segment(1) == 'konfirmasi-pendaftaran' ? 'active' : ''}}">
-                    <a href="{{route('konfirmasi-pendaftaran-index')}}">
-                        <i class="ion-ios-people bg-yellow"></i>
-                        <span>Konfirmasi Pendaftaran</span>
-                    </a>
-                </li>
+                    <li class=" {{Request::segment(1) == 'konfirmasi-pendaftaran' ? 'active' : ''}}">
+                        <a href="{{route('konfirmasi-pendaftaran-index')}}">
+                            <i class="ion-ios-people bg-yellow"></i>
+                            <span>Konfirmasi Pendaftaran</span>
+                        </a>
+                    </li>
                 @endroleCanAccess
             @endif
             

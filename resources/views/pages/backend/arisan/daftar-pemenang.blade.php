@@ -24,11 +24,11 @@
 			<!-- begin breadcrumb -->
 			<ol class="breadcrumb pull-right">
 				<li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-				<li class="breadcrumb-item active">Status Bayar Periode</li>
+				<li class="breadcrumb-item active">Pemenang Arisan</li>
 			</ol>
 			<!-- end breadcrumb -->
 			<!-- begin page-header -->
-			<h1 class="page-header">Status Bayar Periode</h1>
+			<h1 class="page-header">Pemenang Arisan</h1>
 			<!-- end page-header -->
 			
 			<!-- begin row -->
@@ -43,20 +43,12 @@
 							<div class="panel-heading-btn">
 								<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
 							</div>
-							<h4 class="panel-title">Status Bayar Periode</h4>
+							<h4 class="panel-title">Daftar Pemenang</h4>
 						</div>
 						<!-- end panel-heading -->
 
 						<div class="panel-body">
-							@if(count($id_status_bayar) == 1 && in_array('1',$id_status_bayar))
-								@if($periode == ($arisan->periode+1))
-									<form action="{{route('undi-pemenang',['id'=>$id,'periode'=>$periode])}}" method="post" name="aktif">
-										@csrf
-										@method('post')
-										<input type="submit" class="btn btn-primary btn-lg" value="Mulai Undi Pemenang">
-									</form>
-								@endif
-							@endif
+
 							<!-- #modal-without-animation -->
 							<div class="modal" id="add_data">
 								<div class="modal-dialog modal-md">
@@ -107,7 +99,7 @@
 								<div class="modal-dialog modal-md">
 									<div class="modal-content">
 										<div class="modal-header">
-											<h4 class="modal-title">Detail Pembayaran</h4>
+											<h4 class="modal-title">Kirim Bukti Pembayaran</h4>
 											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 										</div>
 										<div class="modal-body">
@@ -117,40 +109,36 @@
 												<div class="row">
 													<div class="col-md-12">
 														<div class="form-group">
-									                        <label for="pembayar">Nama Pembayar</label>
-									                          <input type="text" class="form-control" id="pembayar" name="pembayar" required="required" value="" disabled>
+									                        <label for="anggota">Nama</label>
+									                          <input type="text" class="form-control" id="anggota" name="anggota" required="required" value="" disabled>
 									                    </div>
 													</div>
 
 													<div class="col-md-12">
 														<div class="form-group">
-									                        <label for="tipe_wallet">Tipe Pembayaran</label>
+									                        <label for="tipe_wallet">Tipe Wallet</label>
 									                          <input type="text" class="form-control" id="tipe_wallet" name="tipe_wallet" required="required" value="" disabled>
 									                    </div>
 													</div>
 
 													<div class="col-md-12">
 														<div class="form-group">
-									                        <label for="no_wallet">Dari No. Wallet</label>
+									                        <label for="no_wallet">No. Wallet</label>
 									                          <input type="text" class="form-control" id="no_wallet" name="no_wallet" required="required" value="" disabled>
 									                    </div>
 													</div>
 
 													<div class="col-md-12">
 														<div class="form-group">
-									                        <label for="bukti_bayar">Bukti pembayaran</label>
-									                          <img class="media-object" name="bukti_bayar" src="" alt="" style="max-width: 600px;"><br><br>
+									                        <label for="nominal">Jumlah Nominal</label>
+									                          <input type="text" class="form-control" id="nominal" name="nominal" required="required" value="" disabled>
 									                    </div>
 													</div>
 
 													<div class="col-md-12">
 														<div class="form-group">
-									                        <label for="status_aktif">Status Pembayaran</label>
-									                        <select required class="form-control" name="status_bayar" id="status_bayar">
-									                        	<option value="">-- Pilih Status --</option>
-									                        	<option value="1">Valid</option>
-									                        	<option value="3">Tidak Valid</option>
-									                        </select><br>
+									                        <label for="bukti_transfer">Upload Bukti Transfer</label>
+									                          <input type="file" class="form-control" id="bukti_transfer" name="bukti_transfer" required="required" value="" >
 									                    </div>
 													</div>
 												</div>
@@ -172,16 +160,26 @@
 									<tr>
 										<th width="1%">No</th>
 										<th class="text-nowrap">Nama</th>
-										<th class="text-nowrap">Status Pembayaran</th>
+										<th class="text-nowrap">Arisan</th>
+										<th class="text-nowrap">Periode</th>
+										<th class="text-nowrap">Status</th>
+										<th class="text-nowrap" data-orderable="false"></th>
 									</tr>
 								</thead>
 								<tbody>
 									@php $num=1 @endphp
-									@foreach($data_iuran as $data)
+									@foreach($pemenang as $data)
 										<tr>
 											<td>{{$num++}}</td>
-											<td>{{ucwords($data->pembayar)}}</td>
-											<td>{{$data->nama_status_bayar}}</td>
+											<td>{{ucwords($data->pemenang)}}</td>
+											<td>{{ucwords($data->nama_arisan)}}</td>
+											<td>{{ucwords($data->periode)}}</td>
+											<td>{{$data->nama_status_undian}}</td>
+											<td>
+												@if($data->status_undian != '1')
+													<a href="javascript:;" url="{{route('form-transfer-pemenang', $data->id)}}" class="edit_data" url-update="{{route('update-status-pemenang', $data->id)}}"><i class="fas fa-lg fa-fw m-r-10 fa-edit text-warning"></i></a>
+												@endif
+											</td>
 										</tr>
 									@endforeach
 								</tbody>
@@ -250,10 +248,11 @@
 			  type:"GET",
 			  success:function(response){
 			    $('form[name=update]').attr('action', url_update)
-			    $('input[name=pembayar]').val(response.pembayar)
+			    $('input[name=anggota]').val(response.name)
 			    $('input[name=tipe_wallet]').val(response.tipe_wallet)
 			    $('input[name=no_wallet]').val(response.no_wallet)
-			    $('img[name=bukti_bayar]').attr('src', "{{asset('public')}}/"+response.bukti_bayar)
+			    $('input[name=nominal]').val(response.total_nominal)
+			    // $('img[name=bukti_bayar]').attr('src', "{{asset('public')}}/"+response.bukti_bayar)
 			    $('#edit_form').modal().show()
 			  },
 			});

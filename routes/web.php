@@ -116,6 +116,9 @@ Route::middleware('auth')->group(function (){
 				Route::post('selesai/{id}', 'Backend\ArisanController@update_selesai')->name('arisan-update-selesai');
 				Route::get('daftar-invoice', 'Backend\ArisanController@list_invoice')->name('daftar-invoice');
 				Route::get('detail-periode/{id}', 'Backend\ArisanController@detail_periode')->name('detail-periode');
+				Route::get('daftar-pemenang', 'Backend\ArisanController@list_pemenang')->name('daftar-pemenang');
+				Route::get('form-transfer-pemenang/{id}', 'Backend\ArisanController@form_transfer_pemenang')->name('form-transfer-pemenang');
+				Route::post('update-status-pemenang/{id}', 'Backend\ArisanController@update_status_pemenang')->name('update-status-pemenang');
 			});
 			Route::post('join-arisan/{id}', 'Backend\ArisanController@join_arisan')->name('join-arisan');
 			Route::get('arisan-saya', 'Backend\ArisanController@arisan_saya')->name('arisan-saya');
@@ -125,6 +128,7 @@ Route::middleware('auth')->group(function (){
 			Route::post('pembayaran/{id}', 'Backend\ArisanController@pembayaran')->name('pembayaran');
 			Route::post('update-status-pembayaran/{id}', 'Backend\ArisanController@update_status_pembayaran')->name('update-status-pembayaran');
 			Route::get('status-bayar-periode/{id}/{periode}', 'Backend\ArisanController@status_bayar_periode')->name('status-bayar-periode');
+			Route::post('undi-pemenang/{id}/{periode}', 'Backend\ArisanController@undi_pemenang')->name('undi-pemenang');
 		});
 	});
 
