@@ -38,6 +38,18 @@ Route::middleware('auth')->group(function (){
 				// Route::get('delete/{id}', 'Backend\KamarController@delete')->name('kamar-delete');
 			});
 		});
+
+		Route::prefix('laporan')->group(function (){
+			Route::middleware('role_user:0')->group(function(){
+				Route::get('/', 'Backend\ArisanController@laporan_index')->name('laporan-index');
+				Route::get('laporan-keuangan/{id}', 'Backend\ArisanController@laporan_keuangan')->name('laporan-keuangan');
+			});
+			Route::middleware('role_user:1,2')->group(function(){
+				Route::get('form-data-diri', 'RegisterController@form_data_diri')->name('form-data-diri');
+				Route::post('submit-data-diri/{id}', 'RegisterController@submit_data_diri')->name('submit-data-diri');
+				// Route::get('delete/{id}', 'Backend\KamarController@delete')->name('kamar-delete');
+			});
+		});
 	});
 
 	//Route Arisan

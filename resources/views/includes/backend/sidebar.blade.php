@@ -58,11 +58,12 @@
                         @endroleCanAccess
                         @roleCanAccess(['1','2'])
                             <li class="{{Request::segment(2) == 'arisan-saya' ? 'active' : ''}}"><a href="{{route('arisan-saya')}}">Arisan Saya</a></li>
+                            <li class="{{Request::segment(2) == 'daftar-pemenang' ? 'active' : ''}}"><a href="{{route('daftar-pemenang')}}">Daftar Pemenang</a></li>  
                         @endroleCanAccess
                         @roleCanAccess(['0'])
-                            <li class="{{Request::segment(2) == 'daftar-invoice' ? 'active' : ''}}"><a href="{{route('daftar-invoice')}}">Daftar Invoice</a></li>
+                            <li class="{{Request::segment(2) == 'daftar-invoice' ? 'active' : ''}}"><a href="{{route('daftar-invoice')}}">Daftar Invoice</a></li>                            
+                            <li class="{{Request::segment(2) == 'daftar-pemenang' ? 'active' : ''}}"><a href="{{route('daftar-pemenang')}}">Daftar Pemenang</a></li>                            
                         @endroleCanAccess
-                            <li class="{{Request::segment(2) == 'daftar-pemenang' ? 'active' : ''}}"><a href="{{route('daftar-pemenang')}}">Daftar Pemenang</a></li>
                     </ul>
                 </li>
                 @roleCanAccess(['0'])
@@ -70,6 +71,12 @@
                         <a href="{{route('konfirmasi-pendaftaran-index')}}">
                             <i class="ion-ios-people bg-yellow"></i>
                             <span>Konfirmasi Pendaftaran</span>
+                        </a>
+                    </li>
+                    <li class=" {{Request::segment(1) == 'laporan' ? 'active' : ''}}">
+                        <a href="{{route('laporan-index')}}">
+                            <i class="ion-ios-book bg-brown"></i>
+                            <span>Laporan Keuangan</span>
                         </a>
                     </li>
                 @endroleCanAccess

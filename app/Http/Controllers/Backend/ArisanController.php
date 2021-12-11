@@ -169,7 +169,7 @@ class ArisanController extends Controller
                         ->leftJoin('m_arisan as b', 'a.id_arisan','=','b.id_arisan')
                         ->leftJoin('users as c', 'b.created_by','=','c.id')
                         ->select('b.*','c.name as pembuat')
-                        ->where('a.id_user',Auth::user()->id)
+                        // ->where('a.id_user',Auth::user()->id)
                         ->orderBy('b.created_date','desc')
                         ->orderBy('b.id_arisan','desc')
                         ->get();
@@ -249,17 +249,19 @@ class ArisanController extends Controller
     {
         $arisan = DB::table('t_iuran_arisan as a')
                     ->leftJoin('m_arisan as b', 'a.id_arisan','=','b.id_arisan')
-                    ->select('b.created_by','b.nama_arisan','b.iuran_perbulan','a.periode','a.id_user')
-                    ->where('id',$id)->first();
+                    ->leftJoin('users as c','a.id_user','=','c.id')
+                    ->select('b.created_by','b.nama_arisan','b.iuran_perbulan','a.periode','a.id_arisan','a.id_user','c.name')
+                    ->where('a.id',$id)->first();
 
         if ($request->status_bayar == '1') {
             $ins_h_keuangan = [
-                'tipe' => 1,
-                'catatan' => "Pembayaran iuran ".ucwords($arisan->nama_arisan)." Periode ".$arisan->periode,
+                'tipe' => 2,
+                'catatan' => "Pembayaran iuran ".ucwords($arisan->nama_arisan)." Periode ".$arisan->periode." oleh ".ucwords($arisan->name),
                 'nominal' => $arisan->iuran_perbulan,
                 'created_date' => date('Y-m-d H:i:s'),
                 'created_by' => Auth::user()->id,
                 'id_user' => $arisan->id_user,
+                'id_arisan' => $arisan->id_arisan,
             ];
             DB::table('h_keuangan')->insert($ins_h_keuangan);
         }
@@ -384,12 +386,13 @@ class ArisanController extends Controller
                     ->where('a.id',$id)->first();
 
         $ins_h_keuangan = [
-            'tipe' => 2,
+            'tipe' => 1,
             'catatan' => "Pembayaran dana ".ucwords($arisan->nama_arisan)." Kepada ".$arisan->name." Periode ".$arisan->periode,
             'nominal' => ($arisan->iuran_perbulan * $arisan->slot_terisi),
             'created_date' => date('Y-m-d H:i:s'),
             'created_by' => Auth::user()->id,
             'id_user' => $arisan->id_user,
+            'id_arisan' => $arisan->id_arisan,
         ];
         DB::table('h_keuangan')->insert($ins_h_keuangan);
 
@@ -402,15 +405,44 @@ class ArisanController extends Controller
         return redirect()->back();
     }
 
-    public function pemenang_index()
+    public function laporan_index()
     {
-        $pemenang = DB::table('t_slot_arisan as a')
-                    ->leftJoin('users as b','a.id_user','=','b.id')
-                    ->leftJoin('m_arisan as c','a.id_arisan','=','c.id_arisan')
-                    ->select('a.*','b.name','c.nama_arisan')
-                    ->where('a.status_undian','1')->get();
+        $list_arisan = DB::table('m_arisan as a')->select('a.*','b.name as pembuat')
+                        ->leftJoin('users as b', 'a.created_by','=','b.id')
+                        ->orderBy('a.created_date','desc')
+                        ->orderBy('a.id_arisan','desc')
+                        ->whereIn('a.status_arisan',[2,3])
+                        ->get();
 
-        // return view();
+        $list_slot = DB::table('t_slot_arisan as a')->select('a.*')->get();
+        $data = [];
+        foreach ($list_arisan as $arisan) {
+            $arr_slot = [];
+            foreach ($list_slot as $slot) {
+                if ($slot->id_arisan == $arisan->id_arisan) {
+                    $arr_slot[] = $slot->id_user;
+                }
+            }
+            $arisan->list_id_user = $arr_slot;
+            $data[] = $arisan;
+        }
+        $arisan = (object) $data;
+
+        return view('pages.backend.laporan.index', compact('arisan'));
+    }
+
+    public function laporan_keuangan($id)
+    {
+        $arisan = DB::table('m_arisan')->where('id_arisan',$id)->first();
+        $laporan = DB::table('h_keuangan as a')
+                    ->leftJoin('users as b','a.id_user','=','b.id')
+                    ->leftJoin('users as c','a.created_by','=','b.id')
+                    ->select('a.*','b.name as anggota','c.name as penulis', DB::raw('IF(a.tipe = 1 , "debit", "kredit") as tipe'))
+                    ->where('a.id_arisan',$id)
+                    ->orderBy('tipe','desc')
+                    ->get();
+
+        return view('pages.backend.laporan.laporan', compact('laporan','arisan'));
     }
 
 }
