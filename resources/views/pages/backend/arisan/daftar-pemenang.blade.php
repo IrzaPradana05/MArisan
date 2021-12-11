@@ -135,12 +135,12 @@
 									                    </div>
 													</div>
 
-													<div class="col-md-12">
+													<!-- <div class="col-md-12">
 														<div class="form-group">
 									                        <label for="bukti_transfer">Upload Bukti Transfer</label>
 									                          <input type="file" class="form-control" id="bukti_transfer" name="bukti_transfer" required="required" value="" >
 									                    </div>
-													</div>
+													</div> -->
 												</div>
 										</div>
 										<div class="modal-footer">
@@ -176,7 +176,7 @@
 											<td>{{ucwords($data->periode)}}</td>
 											<td>{{$data->nama_status_undian}}</td>
 											<td>
-												@if($data->status_undian != '1')
+												@if($data->status_undian != '1' && Auth::user()->role == '0')
 													<a href="javascript:;" url="{{route('form-transfer-pemenang', $data->id)}}" class="edit_data" url-update="{{route('update-status-pemenang', $data->id)}}"><i class="fas fa-lg fa-fw m-r-10 fa-edit text-warning"></i></a>
 												@endif
 											</td>
@@ -225,7 +225,7 @@
 			$('#data-table-kamar').DataTable({
 				dom: 'Bfrtip',
 			    buttons: [
-			        'csv', 'excel', 'pdf', 'print'
+			        // 'csv', 'excel', 'pdf', 'print'
 			    ]
 			});
 		});

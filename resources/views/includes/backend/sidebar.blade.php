@@ -55,10 +55,14 @@
                     <ul class="sub-menu">
                         @roleCanAccess(['1'])
                             <li class="{{Request::segment(1) == 'arisan' && Request::segment(2) == '' ? 'active' : ''}}"><a href="{{route('arisan-index')}}">Daftar Arisan</a></li>
-                            <li class="{{Request::segment(2) == 'daftar-invoice' ? 'active' : ''}}"><a href="{{route('daftar-invoice')}}">Daftar Invoice</a></li>
-                            <li class="{{Request::segment(2) == 'daftar-pemenang' ? 'active' : ''}}"><a href="{{route('daftar-pemenang')}}">Daftar Pemenang</a></li>
                         @endroleCanAccess
-                        <li class="{{Request::segment(2) == 'arisan-saya' ? 'active' : ''}}"><a href="{{route('arisan-saya')}}">Arisan Saya</a></li>
+                        @roleCanAccess(['1','2'])
+                            <li class="{{Request::segment(2) == 'arisan-saya' ? 'active' : ''}}"><a href="{{route('arisan-saya')}}">Arisan Saya</a></li>
+                        @endroleCanAccess
+                        @roleCanAccess(['0'])
+                            <li class="{{Request::segment(2) == 'daftar-invoice' ? 'active' : ''}}"><a href="{{route('daftar-invoice')}}">Daftar Invoice</a></li>
+                        @endroleCanAccess
+                            <li class="{{Request::segment(2) == 'daftar-pemenang' ? 'active' : ''}}"><a href="{{route('daftar-pemenang')}}">Daftar Pemenang</a></li>
                     </ul>
                 </li>
                 @roleCanAccess(['0'])
@@ -71,42 +75,6 @@
                 @endroleCanAccess
             @endif
             
-            <!-- <li class=" {{Request::segment(1) == 'surat-tindak' ? 'active' : ''}}">
-                <a href="{{route('surat-tindak-index')}}">
-                    <i class="ion-ios-document bg-yellow"></i>
-                    <span>Surat Tindak Lanjut</span>
-                </a>
-            </li> -->
-            <!-- <li class=" {{Request::segment(1) == 'prestasi' ? 'active' : ''}}">
-                <a href="{{route('prestasi-index')}}">
-                    <i class="ion-ios-trophy bg-purple"></i>
-                    <span>Prestasi Siswa</span>
-                </a>
-            </li>
-            <li class=" {{Request::segment(1) == 'konseling' ? 'active' : ''}}">
-                <a href="{{route('konseling-index')}}">
-                    <i class="ion-ios-people bg-indigo"></i>
-                    <span>Bimbingan Konseling</span>
-                </a>
-            </li>
-            <li class=" {{Request::segment(1) == 'karir' ? 'active' : ''}}">
-                <a href="{{route('karir-index')}}">
-                    <i class="ion-ios-people bg-teal"></i>
-                    <span>Bimbingan Karir</span>
-                </a>
-            </li>
-            <li class=" {{Request::segment(1) == 'pengumuman' || Request::segment(1) == 'psikotes' || Request::segment(1) == 'peserta-psikotes' ? 'active' : ''}}">
-                <a href="{{route('pengumuman-index')}}">
-                    <i class="ion-ios-create bg-grey"></i>
-                    <span>Psikotes</span>
-                </a>
-            </li>
-            <li class=" {{Request::segment(1) == 'reflin' ? 'active' : ''}}">
-                <a href="{{route('reflin-index')}}">
-                    <i class="ion-ios-create bg-cyan"></i>
-                    <span>Tes Reflin</span>
-                </a>
-            </li> -->
             @endroleCanAccess
             
             <!-- begin sidebar minify button -->

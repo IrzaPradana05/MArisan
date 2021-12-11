@@ -172,7 +172,7 @@
 			$('#data-table-kamar').DataTable({
 				dom: 'Bfrtip',
 			    buttons: [
-			        'csv', 'excel', 'pdf', 'print'
+			        // 'csv', 'excel', 'pdf', 'print'
 			    ]
 			});
 		});

@@ -99,8 +99,7 @@ class ArisanController extends Controller
     public function update_aktif(Request $request, $id)
     {
         $arisan = DB::table('m_arisan')->where('id_arisan', $id)->update([
-                    'status_arisan'     => 2,
-                ]);
+                    'status_arisan'=>2]);
 
         $slot = DB::table('t_slot_arisan')->where('id_arisan',$id)->get();
         $arr_ins_iuran=[];
@@ -186,6 +185,7 @@ class ArisanController extends Controller
                         ->leftJoin('users as c', 'a.id_user','=','c.id')
                         ->select('a.*','b.*','a.periode as periode','c.name as pembuat')
                         ->where('a.id_user',Auth::user()->id)
+                        ->where('a.id_arisan',$id)
                         ->orderBy('a.tenggat_waktu','asc')
                         ->get();
 
@@ -194,10 +194,14 @@ class ArisanController extends Controller
 
     public function invoice($id)
     {
+        $admin = DB::table('users')->where('role','0')->first();
         $arisan = DB::table('m_arisan as a')
                     ->leftJoin('users as b','a.created_by','=','b.id')
                     ->select('a.*','b.*','b.name as pembuat')
                     ->where('a.id_arisan', $id)->first();
+        $arisan->pembuat = $admin->name;
+        $arisan->tipe_wallet = $admin->tipe_wallet;
+        $arisan->no_wallet = $admin->no_wallet;
 
         return $arisan;
     }
@@ -212,31 +216,13 @@ class ArisanController extends Controller
                     ->select('b.created_by','b.nama_arisan','b.iuran_perbulan','a.periode')
                     ->where('id',$id)->first();
 
-        if ($arisan->created_by == Auth::user()->id) {
-            $status_bayar = ['status_bayar'=>'1','bukti_bayar'=>$bukti_bayar];
-
-            $ins_h_keuangan = [
-                'tipe' => 1,
-                'catatan' => "Pembayaran iuran ".ucwords($arisan->nama_arisan)." Periode ".$arisan->periode,
-                'nominal' => $arisan->iuran_perbulan,
-                'created_date' => date('Y-m-d H:i:s'),
-                'created_by' => Auth::user()->id,
-                'id_user' => Auth::user()->id,
-            ];
-            DB::table('h_keuangan')->insert($ins_h_keuangan);
-        }else{
-            $status_bayar = ['status_bayar'=>'2','bukti_bayar'=>$bukti_bayar];
-        }
+        $status_bayar = ['status_bayar'=>'2','bukti_bayar'=>$bukti_bayar];
 
         DB::table('t_iuran_arisan')
             ->where('id',$id)
             ->update($status_bayar);
 
-        if ($arisan->created_by == Auth::user()->id) {
-            Alert::success('Success', 'Data pembayaran anda berhasil.');
-        }else{
-            Alert::success('Success', 'Data pembayaran anda sedang diperiksa oleh panitia.');
-        }
+        Alert::success('Success', 'Data pembayaran anda sedang diperiksa oleh Admin.');
 
         return redirect()->back();
     }
@@ -295,7 +281,7 @@ class ArisanController extends Controller
                     ->leftJoin('m_arisan as b','a.id_arisan','=','b.id_arisan')
                     ->leftJoin('users as c','a.id_user','=','c.id')
                     ->select('a.id','b.*','a.periode','c.name as pembuat')
-                    ->whereIn('a.id_arisan',$array_id_arisan)->where('a.status_bayar','2')->orderBy('a.id','desc')->get();
+                    ->where('a.status_bayar','2')->orderBy('a.id','desc')->get();
 
         return view('pages.backend.arisan.daftar-invoice', compact('iuran'));
     }
@@ -324,6 +310,7 @@ class ArisanController extends Controller
                         ->leftJoin('m_arisan as b','a.id_arisan','=','b.id_arisan')
                         ->leftJoin('users as c','a.id_user','=','c.id')
                         ->select('a.*','c.name as pembayar',DB::raw('IF(status_bayar = 0, "Belum Bayar", IF(status_bayar = 1, "Lunas", IF(status_bayar = 2, "Diperiksa", IF(status_bayar = 3, "Tidak Valid", "")))) as nama_status_bayar'))
+                        ->where('a.id_arisan',$id)
                         ->where('a.periode',$periode);
 
         $id_status_bayar = $data_iuran->pluck('status_bayar')->toArray();
@@ -359,11 +346,20 @@ class ArisanController extends Controller
 
     public function list_pemenang()
     {
-        $pemenang = DB::table('t_slot_arisan as a')
+        $query = DB::table('t_slot_arisan as a')
                         ->leftJoin('users as b','a.id_user','=','b.id')
                         ->leftJoin('m_arisan as c','a.id_arisan','=','c.id_arisan')
                         ->select('a.*','b.name as pemenang','c.nama_arisan',DB::raw('IF(status_undian = 2, "Menunggu Pembayaran", IF(status_undian = 1, "Terbayar", "")) as nama_status_undian'))
-                        ->whereIn('a.status_undian',[1,2])->get();
+                        ->whereIn('a.status_undian',[1,2]);
+
+        if (Auth::user()->role != '0') {
+            $arr_id = DB::table('t_slot_arisan as a')
+                        ->leftJoin('m_arisan as c','a.id_arisan','=','c.id_arisan')
+                        ->select('a.id_arisan')->where('id_user',Auth::user()->id)->pluck('a.id_arisan')->toArray();
+            $query->whereIn('a.id_arisan',$arr_id);
+        }
+
+        $pemenang = $query->get();
 
         return view('pages.backend.arisan.daftar-pemenang', compact('pemenang'));
     }
@@ -381,9 +377,6 @@ class ArisanController extends Controller
 
     public function update_status_pemenang(Request $request, $id)
     {
-        $fileName = DB::table('t_slot_arisan')->where('id',$id)->first();
-        $bukti_transfer = uploadOrUpdateImage($request->file('bukti_transfer'), $fileName->bukti_transfer, $destinationPath = 'images/bukti-transfer');
-
         $arisan = DB::table('t_slot_arisan as a')
                     ->leftJoin('m_arisan as b', 'a.id_arisan','=','b.id_arisan')
                     ->leftJoin('users as c', 'a.id_user','=','c.id')
@@ -402,7 +395,7 @@ class ArisanController extends Controller
 
         DB::table('t_slot_arisan')
             ->where('id',$id)
-            ->update(['bukti_transfer'=>$bukti_transfer,'status_undian'=>'1']);
+            ->update(['status_undian'=>'1']);
 
         Alert::success('Success', 'Data berhasil disimpan.');
 

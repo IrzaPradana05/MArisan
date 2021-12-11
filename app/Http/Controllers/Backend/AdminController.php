@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DB;
 use Alert;
+use Auth;
 
 class AdminController extends Controller
 {
@@ -38,9 +39,36 @@ class AdminController extends Controller
 
     public function editAjax($id)
     {
-    	$user = DB::table('users')->where('id', $id)->first();
+        $user = DB::table('users')->where('id', $id)->first();
 
-    	return response((array) $user);
+        return response((array) $user);
+    }
+
+    public function edit_profil()
+    {
+    	$data = DB::table('users')->where('id', Auth::user()->id)->first();
+
+    	return view('pages.backend.profil.profil', compact('data'));
+    }
+
+    public function submit_data_profil(Request $request, $id){
+
+        $arr_update = [
+            'name' => $request->name,
+            'no_hp' => $request->no_hp,
+            'nik' => $request->nik,
+            'jk' => $request->jk,
+            'tempat_lahir' => $request->tempat_lahir,
+            'tanggal_lahir' => $request->tanggal_lahir,
+            'alamat' => $request->alamat,
+            'tipe_wallet' => $request->tipe_wallet,
+            'no_wallet' => $request->no_wallet,
+        ];
+        DB::table('users')->where('id',$id)->update($arr_update);
+
+        Alert::success('Success', 'Data Berhasil Disimpan!');
+
+        return redirect()->back();
     }
 
     public function update(Request $request, $id)

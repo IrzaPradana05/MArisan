@@ -35,58 +35,44 @@
 				<!-- begin row -->
 				<div class="row">
 					<!-- begin col-3 -->
-					<div class="col-lg-3 col-md-6">
+					<div class="col-lg-4 col-md-6">
 						<div class="widget widget-stats bg-red">
 							<div class="stats-icon"><i class="fa fa-desktop"></i></div>
 							<div class="stats-info">
-								<h4>TOTAL POIN PELANGGARAN</h4>
-								<p>{{$poin_pelanggaran}}</p>
+								<h4>JUMLAH ARISAN</h4>
+								<p>{{$jumlah_arisan}}</p>
 							</div>
-							<div class="stats-link">
-								<a href="{{route('pelanggaran-index')}}">Detail Selengkapnya <i class="fa fa-arrow-alt-circle-right"></i></a>
-							</div>
+							<!-- <div class="stats-link">
+								<a href="javascript:;">Detail Selengkapnya <i class="fa fa-arrow-alt-circle-right"></i></a>
+							</div> -->
 						</div>
 					</div>
 					<!-- end col-3 -->
 					<!-- begin col-3 -->
-					<div class="col-lg-3 col-md-6">
+					<div class="col-lg-4 col-md-6">
 						<div class="widget widget-stats bg-orange">
 							<div class="stats-icon"><i class="fa fa-link"></i></div>
 							<div class="stats-info">
-								<h4>TOTAL PRESTASI</h4>
-								<p>{{$prestasi}}</p>
+								<h4>TOTAL PEMASUKAN</h4>
+								<p>{{rupiah($kredit)}}</p>
 							</div>
-							<div class="stats-link">
-								<a href="{{route('prestasi-index')}}">Detail Selengkapnya <i class="fa fa-arrow-alt-circle-right"></i></a>
-							</div>
+							<!-- <div class="stats-link">
+								<a href="javascript:;">Detail Selengkapnya <i class="fa fa-arrow-alt-circle-right"></i></a>
+							</div> -->
 						</div>
 					</div>
 					<!-- end col-3 -->
 					<!-- begin col-3 -->
-					<div class="col-lg-3 col-md-6">
+					<div class="col-lg-4 col-md-6">
 						<div class="widget widget-stats bg-grey-darker">
 							<div class="stats-icon"><i class="fa fa-users"></i></div>
 							<div class="stats-info">
-								<h4>BIMBINGAN KONSELING</h4>
-								<p>{{$konseling}}</p>
+								<h4>TOTAL PENGELUARAN</h4>
+								<p>{{rupiah($debit)}}</p>
 							</div>
-							<div class="stats-link">
-								<a href="{{route('konseling-index')}}">Detail Selengkapnya <i class="fa fa-arrow-alt-circle-right"></i></a>
-							</div>
-						</div>
-					</div>
-					<!-- end col-3 -->
-					<!-- begin col-3 -->
-					<div class="col-lg-3 col-md-6">
-						<div class="widget widget-stats bg-black-lighter">
-							<div class="stats-icon"><i class="fa fa-clock"></i></div>
-							<div class="stats-info">
-								<h4>BIMBINGAN KARIR</h4>
-								<p>{{$karir}}</p>
-							</div>
-							<div class="stats-link">
-								<a href="{{route('karir-index')}}">Detail Selengkapnya <i class="fa fa-arrow-alt-circle-right"></i></a>
-							</div>
+							<!-- <div class="stats-link">
+								<a href="javascript:;">Detail Selengkapnya <i class="fa fa-arrow-alt-circle-right"></i></a>
+							</div> -->
 						</div>
 					</div>
 					<!-- end col-3 -->
@@ -148,7 +134,7 @@
 											<td>{{format_tanggal($data->created_date,true,false)}}</td>
 											<td>{{ucwords($data->pembuat)}}</td>
 											<td>
-												@if($data->status_arisan == '1')
+												@if($data->status_arisan == '1' && Auth::user()->role != '0')
 													<form action="{{route('join-arisan', $data->id_arisan)}}" method="post">
 														@csrf
 														@method('post')
