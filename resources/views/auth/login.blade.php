@@ -43,7 +43,7 @@
 			<div class="login-header">
 				<div class="brand">
 					<span class="logo"><i class="ion-ios-book"></i></span> <b>M</b>Arisan
-					<small>Sistem Informasi Arisan Warga Desa Lelateng</small>
+					<small>Main Arisan Warga Desa Lelateng</small>
 					<small>Kabupaten Jembrana, Bali</small>
 					<small>753655</small>
 				</div>

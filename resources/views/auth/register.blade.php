@@ -39,9 +39,9 @@
 			<div class="news-feed">
 				<div class="news-image" style="background-image: url({{asset('assets/img/login-bg/arisan.png')}})"></div>
 				<div class="news-caption">
-					<h4 class="caption-title"><b>Main</b> Arisan</h4>
+					<h4 class="caption-title"><b>M</b>ain Arisan</h4>
 					<p>
-						SELAMAT DATANG DI SISTEM INFORMASI ARISAN 2021.
+						SELAMAT DATANG DI HALAMAN PENDAFTARAN MAIN ARISAN.
 					</p>
 				</div>
 			</div>
@@ -51,7 +51,7 @@
 				<!-- begin register-header -->
 				<h1 class="register-header">
 					Sign Up
-					<small>Silahkan Mendaftar untuk Membuat akun baru agar bisa login pada Sistem Main Arisan 2021.</small>
+					<small>Silahkan Mendaftar untuk Membuat akun baru agar bisa login pada Main Arisan.</small>
 				</h1>
 				<!-- end register-header -->
 				<!-- begin register-content -->
@@ -111,7 +111,7 @@
 						</div>
 						<hr />
 						<p class="text-center">
-							&copy; Sistem Arisan All Right Reserved 2021
+							&copy; Main Arisan All Right Reserved 2021
 						</p>
 					</form>
 				</div>
