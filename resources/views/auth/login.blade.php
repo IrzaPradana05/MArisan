@@ -47,9 +47,6 @@
 					<small>Kabupaten Jembrana, Bali</small>
 					<small>753655</small>
 				</div>
-				<div class="icon">
-					<i class="fa fa-lock"></i>
-				</div>
 			</div>
 			<!-- end brand -->
 			<!-- begin login-content -->
