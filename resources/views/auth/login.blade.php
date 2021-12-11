@@ -42,7 +42,7 @@
 			<!-- begin brand -->
 			<div class="login-header">
 				<div class="brand">
-					<span class="logo"><i class="ion-ios-book"></i></span> <b>M</b>Arisan
+					<span class="logo" style="margin-bottom: 10px;"><img class="img img-fluid" src="{{asset('bayar/marisan.png')}}" alt=""></i></span> <b>M</b>Arisan
 					<small>Main Arisan Warga Desa Lelateng</small>
 					<small>Kabupaten Jembrana, Bali</small>
 					<small>753655</small>

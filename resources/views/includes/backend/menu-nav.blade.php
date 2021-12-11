@@ -2,7 +2,8 @@
 <div id="header" class="header navbar-default">
 	<!-- begin navbar-header -->
 	<div class="navbar-header">
-		<a href="{{route('dashboard')}}" class="navbar-brand"><span class="navbar-logo"><i class="ion-ios-book"></i></span> <b>M</b>Arisan</a>
+		<!-- <a href="{{route('dashboard')}}" class="navbar-brand"><span class="navbar-logo"><i class="ion-ios-book"></i></span> <b>M</b>Arisan</a> -->
+		<a href="{{route('dashboard')}}" class="navbar-brand"><span class="navbar-logo"><img class="img img-fluid" src="{{asset('bayar/marisan.png')}}" alt=""></i></span> <b>M</b>Arisan</a>
 		<button type="button" class="navbar-toggle" data-click="sidebar-toggled">
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
