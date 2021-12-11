@@ -354,7 +354,7 @@ class ArisanController extends Controller
         }
 
         // return view('pages.backend.arisan.status-bayar-periode', compact('data_iuran','id_status_bayar'));
-        return redirect()->back();
+        return redirect()->route('arisan-index');
     }
 
     public function list_pemenang()
@@ -407,6 +407,17 @@ class ArisanController extends Controller
         Alert::success('Success', 'Data berhasil disimpan.');
 
         return redirect()->back();
+    }
+
+    public function pemenang_index()
+    {
+        $pemenang = DB::table('t_slot_arisan as a')
+                    ->leftJoin('users as b','a.id_user','=','b.id')
+                    ->leftJoin('m_arisan as c','a.id_arisan','=','c.id_arisan')
+                    ->select('a.*','b.name','c.nama_arisan')
+                    ->where('a.status_undian','1')->get();
+
+        // return view();
     }
 
 }

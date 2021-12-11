@@ -178,7 +178,7 @@
 											@roleCanAccess(['1'])
 												<td>
 													@if(!in_array($data->status_arisan, [0,2,3]))
-														<a href="javascript:;" url="{{route('cek-invoice', $data->id_arisan)}}" class="edit_data" url-update="{{route('arisan-update', $data->id_arisan)}}"><i class="fas fa-lg fa-fw m-r-10 fa-edit text-warning"></i></a>
+														<a href="javascript:;" url="{{route('arisan-ajax-edit', $data->id_arisan)}}" class="edit_data" url-update="{{route('arisan-update', $data->id_arisan)}}"><i class="fas fa-lg fa-fw m-r-10 fa-edit text-warning"></i></a>
 													@endif
 													@if($data->status_arisan == '2')
 														<a href="{{route('detail-periode', $data->id_arisan)}}"><i class="fas fa-lg fa-fw m-r-10 fa-eye text-primary"></i>Detail</a>
