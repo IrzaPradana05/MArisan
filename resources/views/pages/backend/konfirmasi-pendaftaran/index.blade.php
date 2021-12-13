@@ -124,7 +124,6 @@
 											@roleCanAccess(['0'])
 												<td>
 													<a href="javascript:;" url="{{route('konfirmasi-pendaftaran-edit', $data->id)}}" class="edit_data" url-update="{{route('update-status-pendaftar', $data->id)}}"><i class="fas fa-lg fa-fw m-r-10 fa-edit text-warning"></i></a>
-													<!-- <a href="{{route('karir-delete', $data->id)}}"><i class="fas fa-lg fa-fw m-r-10 fa-trash text-danger"></i></a> -->
 												</td>
 											@endroleCanAccess
 										</tr>

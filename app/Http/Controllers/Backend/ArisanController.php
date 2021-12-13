@@ -165,13 +165,13 @@ class ArisanController extends Controller
 
     public function arisan_saya()
     {
-        $arisan = DB::table('t_slot_arisan as a')
-                        ->leftJoin('m_arisan as b', 'a.id_arisan','=','b.id_arisan')
-                        ->leftJoin('users as c', 'b.created_by','=','c.id')
-                        ->select('b.*','c.name as pembuat')
-                        // ->where('a.id_user',Auth::user()->id)
-                        ->orderBy('b.created_date','desc')
-                        ->orderBy('b.id_arisan','desc')
+        $arisan = DB::table('m_arisan as a')
+                        ->leftJoin('t_slot_arisan as b', 'a.id_arisan','=','b.id_arisan')
+                        ->leftJoin('users as c', 'a.created_by','=','c.id')
+                        ->select('a.*','c.name as pembuat')
+                        ->where('b.id_user',Auth::user()->id)
+                        ->orderBy('a.created_date','desc')
+                        ->orderBy('a.id_arisan','desc')
                         ->get();
 
         return view('pages.backend.arisan.arisan-saya', compact('arisan'));
@@ -409,10 +409,17 @@ class ArisanController extends Controller
     {
         $list_arisan = DB::table('m_arisan as a')->select('a.*','b.name as pembuat')
                         ->leftJoin('users as b', 'a.created_by','=','b.id')
+                        // ->leftJoin('t_slot_arisan as c', 'a.id_arisan','=','c.id_arisan')
                         ->orderBy('a.created_date','desc')
                         ->orderBy('a.id_arisan','desc')
                         ->whereIn('a.status_arisan',[2,3])
                         ->get();
+
+        // if (Auth::user()->role != '0') {
+        //     $list_arisan->where('c.id_user',Auth::user()->id);
+        // }
+
+        // $list_arisan = $list_arisan->get();
 
         $list_slot = DB::table('t_slot_arisan as a')->select('a.*')->get();
         $data = [];
@@ -427,6 +434,7 @@ class ArisanController extends Controller
             $data[] = $arisan;
         }
         $arisan = (object) $data;
+        // dd($arisan);
 
         return view('pages.backend.laporan.index', compact('arisan'));
     }
