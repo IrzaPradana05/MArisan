@@ -255,7 +255,7 @@ class ArisanController extends Controller
 
         if ($request->status_bayar == '1') {
             $ins_h_keuangan = [
-                'tipe' => 2,
+                'tipe' => 1,
                 'catatan' => "Pembayaran iuran ".ucwords($arisan->nama_arisan)." Periode ".$arisan->periode." oleh ".ucwords($arisan->name),
                 'nominal' => $arisan->iuran_perbulan,
                 'created_date' => date('Y-m-d H:i:s'),
@@ -386,7 +386,7 @@ class ArisanController extends Controller
                     ->where('a.id',$id)->first();
 
         $ins_h_keuangan = [
-            'tipe' => 1,
+            'tipe' => 2,
             'catatan' => "Pembayaran dana ".ucwords($arisan->nama_arisan)." Kepada ".$arisan->name." Periode ".$arisan->periode,
             'nominal' => ($arisan->iuran_perbulan * $arisan->slot_terisi),
             'created_date' => date('Y-m-d H:i:s'),
