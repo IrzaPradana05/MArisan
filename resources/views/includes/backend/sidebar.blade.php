@@ -66,20 +66,22 @@
                         @endroleCanAccess
                     </ul>
                 </li>
-                @roleCanAccess(['0'])
-                    <li class=" {{Request::segment(1) == 'konfirmasi-pendaftaran' ? 'active' : ''}}">
-                        <a href="{{route('konfirmasi-pendaftaran-index')}}">
-                            <i class="ion-ios-people bg-yellow"></i>
-                            <span>Konfirmasi Pendaftaran</span>
-                        </a>
-                    </li>
-                    <li class=" {{Request::segment(1) == 'laporan' ? 'active' : ''}}">
-                        <a href="{{route('laporan-index')}}">
-                            <i class="ion-ios-book bg-brown"></i>
-                            <span>Laporan Keuangan</span>
-                        </a>
-                    </li>
-                @endroleCanAccess
+                    @roleCanAccess(['0'])
+                        <li class=" {{Request::segment(1) == 'konfirmasi-pendaftaran' ? 'active' : ''}}">
+                            <a href="{{route('konfirmasi-pendaftaran-index')}}">
+                                <i class="ion-ios-people bg-yellow"></i>
+                                <span>Konfirmasi Pendaftaran</span>
+                            </a>
+                        </li>
+                    @endroleCanAccess
+                    @roleCanAccess(['0','1','2'])
+                        <li class=" {{Request::segment(1) == 'laporan' ? 'active' : ''}}">
+                            <a href="{{route('laporan-index')}}">
+                                <i class="ion-ios-book bg-brown"></i>
+                                <span>Laporan Keuangan</span>
+                            </a>
+                        </li>
+                    @endroleCanAccess
             @endif
             
             @endroleCanAccess

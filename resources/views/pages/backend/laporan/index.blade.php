@@ -59,7 +59,7 @@
 										<th class="text-nowrap">Status Arisan</th>
 										<th class="text-nowrap">Tanggal</th>
 										<th class="text-nowrap">Penulis</th>
-										@roleCanAccess(['0'])
+										@roleCanAccess(['0','1','2'])
 											<th class="text-nowrap" data-orderable="false"></th>
 										@endroleCanAccess
 									</tr>
@@ -75,7 +75,7 @@
 											<td><span class="{{status_arisan($data->status_arisan)[1]}}"><b>{{status_arisan($data->status_arisan)[0]}}</b></span></td>
 											<td>{{format_tanggal($data->created_date,true,false)}}</td>
 											<td>{{ucwords($data->pembuat)}}</td>
-											@roleCanAccess(['0'])
+											@roleCanAccess(['0','1','2'])
 												<td>
 													<a href="{{route('laporan-keuangan', $data->id_arisan)}}"><i class="fas fa-lg fa-fw m-r-10 fa-eye text-primary"></i>Detail</a>
 												</td>

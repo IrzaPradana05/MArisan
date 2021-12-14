@@ -40,7 +40,7 @@ Route::middleware('auth')->group(function (){
 		});
 
 		Route::prefix('laporan')->group(function (){
-			Route::middleware('role_user:0')->group(function(){
+			Route::middleware('role_user:0,1,2')->group(function(){
 				Route::get('/', 'Backend\ArisanController@laporan_index')->name('laporan-index');
 				Route::get('laporan-keuangan/{id}', 'Backend\ArisanController@laporan_keuangan')->name('laporan-keuangan');
 			});

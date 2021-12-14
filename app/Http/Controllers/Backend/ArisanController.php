@@ -412,14 +412,15 @@ class ArisanController extends Controller
                         // ->leftJoin('t_slot_arisan as c', 'a.id_arisan','=','c.id_arisan')
                         ->orderBy('a.created_date','desc')
                         ->orderBy('a.id_arisan','desc')
-                        ->whereIn('a.status_arisan',[2,3])
-                        ->get();
+                        ->whereIn('a.status_arisan',[2,3]);
+                        // ->get();
 
-        // if (Auth::user()->role != '0') {
-        //     $list_arisan->where('c.id_user',Auth::user()->id);
-        // }
+        if (Auth::user()->role != '0') {
+            $id_arisan = DB::table('t_slot_arisan')->where('id_user',Auth::user()->id)->pluck('id_arisan')->toArray();
+            $list_arisan->whereIn('a.id_arisan',$id_arisan);
+        }
 
-        // $list_arisan = $list_arisan->get();
+        $list_arisan = $list_arisan->get();
 
         $list_slot = DB::table('t_slot_arisan as a')->select('a.*')->get();
         $data = [];
