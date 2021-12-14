@@ -17,16 +17,16 @@ class PesanComposer
      */
     public function compose(View $view)
     {
-        $data = DB::table('t_pesan as a')
-                    ->leftJoin('users as b', 'a.id_user_pengirim','=','b.id')
-                    ->leftJoin('users as c', 'a.id_user_penerima','=','c.id')
-                    ->select('a.id_user_pengirim','a.id_user_penerima','b.name as nama_pengirim','c.name as nama_penerima','a.tanggal')
-                    ->where('a.id_user_penerima',Auth::user()->id)
-                    ->where('a.status','0');
+        // $data = DB::table('t_pesan as a')
+        //             ->leftJoin('users as b', 'a.id_user_pengirim','=','b.id')
+        //             ->leftJoin('users as c', 'a.id_user_penerima','=','c.id')
+        //             ->select('a.id_user_pengirim','a.id_user_penerima','b.name as nama_pengirim','c.name as nama_penerima','a.tanggal')
+        //             ->where('a.id_user_penerima',Auth::user()->id)
+        //             ->where('a.status','0');
                     
-        $count = $data->count();
-        $pesan = $data->groupBy('a.id_user_pengirim','a.id_user_penerima','b.name','c.name','a.status','a.tanggal')->orderBy('a.tanggal','desc')->limit(5)->get();
+        // $count = $data->count();
+        // $pesan = $data->groupBy('a.id_user_pengirim','a.id_user_penerima','b.name','c.name','a.status','a.tanggal')->orderBy('a.tanggal','desc')->limit(5)->get();
 
-        $view->with('messages', $pesan)->with('total_messages', $count);
+        // $view->with('messages', $pesan)->with('total_messages', $count);
     }
 }
