@@ -80,7 +80,8 @@
 														<label for="alamat">Alamat</label>
 														<textarea required type="text" class="form-control" name="alamat" id="alamat" disabled></textarea><br>
 														<label for="surat_komitmen">Surat Komitmen</label><br>
-														<img class="media-object" name="surat" src="" alt="" style="max-width: 600px;"><br><br>
+														<!-- <img class="media-object" name="surat" src="" alt="" style="max-width: 600px;"><br><br> -->
+														<a href="" id="surat_komitmen" target="_blank" name="surat"><span style="text-weight:bold; font-size:17px;">Surat Komitmen Pendaftar</span></a><br><br>
 														<label for="status_aktif">Status Data</label>
 														<select required class="form-control" name="status_aktif" id="status_aktif">
 															<option value="">-- Pilih Status --</option>
@@ -193,7 +194,8 @@
 			    $('input[name=tipe_wallet]').val(response.tipe_wallet)
 			    $('input[name=no_wallet]').val(response.no_wallet)
 			    $('textarea[name=alamat]').text(response.alamat)
-			    $('img[name=surat]').attr('src', "{{asset('public')}}/"+response.surat_komitmen)
+			    // $('img[name=surat]').attr('src', "{{asset('public')}}/"+response.surat_komitmen)
+			    $('a[name=surat]').attr('href', "{{asset('public')}}/"+response.surat_komitmen)
 			    $('#edit_form').modal().show()
 			  },
 			});

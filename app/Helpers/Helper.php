@@ -27,7 +27,7 @@ function uploadOrUpdateImage($file, $fileName = null, $destinationPath = 'images
         $fileName = time().'.'.$file->getClientOriginalExtension();
         $fileExtension = \File::extension($fileName);
         $fileNameWithExtension = $fileName;
-        $file->move($destinationPath, $fileNameWithExtension);
+        $file->move(public_path($destinationPath), $fileNameWithExtension);
         // $img = Image::make($file->getRealPath());
         // $img->save(public_path($destinationPath).'/'.$fileNameWithExtension);
 
