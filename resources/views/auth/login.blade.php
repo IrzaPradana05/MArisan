@@ -33,20 +33,20 @@
 	<!-- end #page-loader -->
 	
 	<div class="login-cover">
-		<div class="login-cover-image" style="background-image: url({{asset('assets/img/login-bg/login-bg-17.jpg')}})" data-id="login-cover-image"></div>
+		<div class="login-cover-image" style="background-image: url({{asset('images/arisan.jpg')}})" data-id="login-cover-image"></div>
 		<div class="login-cover-bg"></div>
 	</div>
 	<!-- begin #page-container -->
-	<div id="page-container" class="fade">
+	<div id="page-container" class="fade" style="">
 		<!-- begin login -->
 		<div class="login login-v2" data-pageload-addclass="animated fadeIn">
 			<!-- begin brand -->
 			<div class="login-header">
 				<div class="brand">
 					<span class="logo" style="margin-bottom: 10px;"><img class="img img-fluid" src="{{asset('bayar/marisan.png')}}" alt=""></i></span> <b>M</b>Arisan
-					<small>Main Arisan Warga Desa Lelateng</small>
-					<small>Kabupaten Jembrana, Bali</small>
-					<small>753655</small>
+					<small class="text-white">Main Arisan Warga Desa Lelateng</small>
+					<small class="text-white">Kabupaten Jembrana, Bali</small>
+					<small class="text-white">753655</small>
 				</div>
 			</div>
 			<!-- end brand -->
@@ -76,12 +76,17 @@
 							Remember Me
 						</label>
 					</div> -->
-					<div class="login-buttons">
-						<button type="submit" class="btn btn-success btn-block btn-lg"> <i class="fa fa-arrow-right"></i> Masuk</button>
-					</div>
-					<br>
-					<div class="register-buttons">
-						<a href="{{route('register')}}" class="btn btn-primary btn-block btn-lg"><i class="fa fa-user-plus"></i> Daftar</a>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="login-buttons">
+								<button type="submit" class="btn btn-success btn-block btn-lg"> <i class="fa fa-arrow-right"></i> Masuk</button>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="register-buttons">
+								<a href="{{route('register')}}" class="btn btn-primary btn-block btn-lg"><i class="fa fa-user-plus"></i> Daftar</a>
+							</div>
+						</div>
 					</div>
 					<!-- <div class="m-t-20">
 						Not a member yet? Click <a href="{{route('register')}}">here</a> to register.
@@ -92,14 +97,14 @@
 		</div>
 		<!-- end login -->
         
-		<ul class="login-bg-list clearfix">
+		<!-- <ul class="login-bg-list clearfix">
 			<li class="active"><a href="javascript:;" data-click="change-bg" data-img="{{asset('assets/img/login-bg/login-bg-17.jpg')}}" style="background-image: url({{asset('assets/img/login-bg/login-bg-17.jpg')}})"></a></li>
 			<li><a href="javascript:;" data-click="change-bg" data-img="{{asset('assets/img/login-bg/login-bg-16.jpg')}}" style="background-image: url({{asset('assets/img/login-bg/login-bg-16.jpg')}})"></a></li>
 			<li><a href="javascript:;" data-click="change-bg" data-img="{{asset('assets/img/login-bg/login-bg-15.jpg')}}" style="background-image: url({{asset('assets/img/login-bg/login-bg-15.jpg')}})"></a></li>
 			<li><a href="javascript:;" data-click="change-bg" data-img="{{asset('assets/img/login-bg/login-bg-14.jpg')}}" style="background-image: url({{asset('assets/img/login-bg/login-bg-14.jpg')}})"></a></li>
 			<li><a href="javascript:;" data-click="change-bg" data-img="{{asset('assets/img/login-bg/login-bg-13.jpg')}}" style="background-image: url({{asset('assets/img/login-bg/login-bg-13.jpg')}})"></a></li>
 			<li><a href="javascript:;" data-click="change-bg" data-img="{{asset('assets/img/login-bg/login-bg-12.jpg')}}" style="background-image: url({{asset('assets/img/login-bg/login-bg-12.jpg')}})"></a></li>
-		</ul>
+		</ul> -->
 		
 		<!-- begin theme-panel -->
 		<!-- <div class="theme-panel theme-panel-lg">
