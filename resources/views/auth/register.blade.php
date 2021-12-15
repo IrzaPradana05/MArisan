@@ -56,12 +56,23 @@
 				<!-- end register-header -->
 				<!-- begin register-content -->
 				<div class="register-content">
+					@if ($errors->any())
+					    <div class="alert alert-danger">
+					        <ul>
+					            @foreach ($errors->all() as $error)
+					                <li>{{ $error }}</li>
+					            @endforeach
+					        </ul>
+					    </div>
+					@endif
+
 					<form action="{{ route('register') }}" method="POST" class="margin-bottom-0">
 						@csrf
+						@method('post')
 						<label class="control-label">Username <span class="text-danger">*</span></label>
 						<div class="row row-space-10">
 							<div class="col-md-12 m-b-15">
-								<input name="username" type="text" class="form-control" placeholder="First name" required />
+								<input value="{{old('username')}}" name="username" type="text" class="form-control" placeholder="First name" required />
 							</div>
 						</div>
 						<!-- <label class="control-label">Email <span class="text-danger">*</span></label>
@@ -86,8 +97,8 @@
 
 						<div class="form-group">
                         <label for="role">Role<span class="text-danger">*</span></label>
-                          <select id="role" class="form-control custom-select" id="role" name="role" required >
-                            <option selected disabled> --Pilih Jenis Role-- </option>
+                          <select id="role" class="form-control custom-select" id="role" name="role" required>
+                            <option value=""> --Pilih Jenis Role-- </option>
                             <option value="1">Panitia</option>
                             <option value="2">Anggota</option>
                           </select>
@@ -104,7 +115,7 @@
 						</div> -->
 
 						<div class="register-buttons">
-							<button type="submit" class="btn btn-primary btn-block btn-lg">Sign Up</button>
+							<button type="submit" class="btn btn-primary btn-block btn-lg">DAFTAR</button>
 						</div>
 						<div class="m-t-20 m-b-40 p-b-40 text-inverse">
 							Kembali Ke Halaman <a href="{{route('login')}}"> LOGIN </a>

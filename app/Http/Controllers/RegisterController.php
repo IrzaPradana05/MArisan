@@ -19,12 +19,18 @@ class RegisterController extends Controller
 	public function register(Request $request)
 
     {
+    	$validated = $request->validate([
+    	        'username' => 'required|string|max:255|unique:users',
+    	        'password' => 'required|string|min:6|confirmed',
+    	        'role' => 'required',
+    	    ]);
+
         $user = DB::table('users')->insert(['username'		=>$request->username, 
                            					'role'			=>$request->role,
                              				'status_aktif'	=>4,
                               				'password'		=>Hash::make($request->password)]);
 
-        Alert::success('Success', 'Data Berhasil Ditambahkan!');
+        Alert::success('Success', 'Registrasi Berhasil! Silahkan login untuk melanjutkan.');
         return redirect()->route('login');
     }
 

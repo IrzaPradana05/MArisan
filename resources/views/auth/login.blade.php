@@ -27,6 +27,7 @@
 	<!-- ================== END PAGE LEVEL STYLE ================== -->
 </head>
 <body class="pace-top">
+	@include('sweetalert::alert')
 	<!-- begin #page-loader -->
 	<div id="page-loader" class="fade show"><span class="spinner"></span></div>
 	<!-- end #page-loader -->
@@ -51,6 +52,16 @@
 			<!-- end brand -->
 			<!-- begin login-content -->
 			<div class="login-content">
+				@if ($errors->any())
+				    <div class="alert alert-danger">
+				        <ul>
+				            @foreach ($errors->all() as $error)
+				                <li>{{ $error }}</li>
+				            @endforeach
+				        </ul>
+				    </div>
+				@endif
+				
 				<form action="{{ route('login') }}" method="POST" class="margin-bottom-0">
 					@csrf
 					<div class="form-group m-b-20">
