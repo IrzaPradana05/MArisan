@@ -199,9 +199,9 @@ class ArisanController extends Controller
                     ->leftJoin('users as b','a.created_by','=','b.id')
                     ->select('a.*','b.*','b.name as pembuat')
                     ->where('a.id_arisan', $id)->first();
-        $arisan->pembuat = $admin->name;
-        $arisan->tipe_wallet = $admin->tipe_wallet;
-        $arisan->no_wallet = $admin->no_wallet;
+        // $arisan->pembuat = $admin->name;
+        // $arisan->tipe_wallet = $admin->tipe_wallet;
+        // $arisan->no_wallet = $admin->no_wallet;
 
         return $arisan;
     }
@@ -448,7 +448,8 @@ class ArisanController extends Controller
                     ->leftJoin('users as c','a.created_by','=','b.id')
                     ->select('a.*','b.name as anggota','c.name as penulis', DB::raw('IF(a.tipe = 1 , "debit", "kredit") as tipe'))
                     ->where('a.id_arisan',$id)
-                    ->orderBy('tipe','desc')
+                    ->orderBy('a.tipe','desc')
+                    ->orderBy('a.created_date','desc')
                     ->get();
 
         return view('pages.backend.laporan.laporan', compact('laporan','arisan'));
