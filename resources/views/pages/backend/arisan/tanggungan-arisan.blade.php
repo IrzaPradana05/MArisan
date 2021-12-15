@@ -108,7 +108,7 @@
 												<div class="row">
 													<div class="col-md-12">
 														<div class="form-group">
-									                        <label for="panitia">Nama Panitia</label>
+									                        <label for="panitia">Nama Admin</label>
 									                          <input type="text" class="form-control" id="panitia" name="panitia" required="required" value="" disabled>
 									                    </div>
 													</div>

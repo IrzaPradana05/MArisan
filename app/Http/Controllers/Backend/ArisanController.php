@@ -199,9 +199,9 @@ class ArisanController extends Controller
                     ->leftJoin('users as b','a.created_by','=','b.id')
                     ->select('a.*','b.*','b.name as pembuat')
                     ->where('a.id_arisan', $id)->first();
-        // $arisan->pembuat = $admin->name;
-        // $arisan->tipe_wallet = $admin->tipe_wallet;
-        // $arisan->no_wallet = $admin->no_wallet;
+        $arisan->pembuat = $admin->name;
+        $arisan->tipe_wallet = $admin->tipe_wallet;
+        $arisan->no_wallet = $admin->no_wallet;
 
         return $arisan;
     }
